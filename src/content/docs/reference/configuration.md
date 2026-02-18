@@ -55,10 +55,12 @@ routes:
         price: "$0.075"
     fallback: "$0.015"
 
-  "POST /ai/gpt":
+  "POST /v1/chat/completions":
     upstream: openai
-    path: "/v1/chat/completions"
-    price: "$0.01"
+    type: openai-compatible
+    models:
+      gpt-4o: "$0.05"
+      gpt-4o-mini: "$0.005"
 
 hooks:
   onSettled: "hooks/log-payment.ts"
@@ -259,6 +261,59 @@ routes:
     path: "/v1/messages"     # upstream path differs from public path
     price: "$0.015"
 ```
+
+### OpenAI-Compatible Routes
+
+For proxying OpenAI-compatible APIs (OpenAI, OpenRouter, LiteLLM, Ollama, etc.), set `type: openai-compatible` to enable automatic model-based pricing without writing match rules.
+
+The gateway auto-extracts the `model` field from the JSON request body and prices the request using a built-in table of common models (GPT-4o, Claude, Gemini, Llama, Mistral, DeepSeek, etc.).
+
+#### Basic example
+
+```yaml
+upstreams:
+  openai:
+    url: "https://api.openai.com/"
+    headers:
+      authorization: "Bearer ${OPENAI_API_KEY}"
+
+routes:
+  "POST /v1/chat/completions":
+    upstream: openai
+    type: openai-compatible
+
+  "POST /v1/completions":
+    upstream: openai
+    type: openai-compatible
+```
+
+#### Override or extend model pricing
+
+Add a `models` map to set custom prices or add models not in the default table:
+
+```yaml
+routes:
+  "POST /v1/chat/completions":
+    upstream: openai
+    type: openai-compatible
+    models:
+      gpt-4o: "$0.05"          # override default
+      gpt-4o-mini: "$0.005"    # override default
+      my-fine-tune: "$0.02"    # custom model
+    fallback: "$0.01"          # price for models not in any table
+```
+
+#### Price resolution order
+
+When pricing an OpenAI-compatible request, the gateway checks:
+
+1. `models` (your route overrides) — exact match
+2. Built-in default table — exact match
+3. `price` / `fallback` / `defaults.price` — standard fallback chain
+
+#### Streaming support
+
+Streaming responses (SSE) work out of the box — the gateway preserves the ReadableStream without buffering.
 
 ---
 
