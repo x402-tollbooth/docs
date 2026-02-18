@@ -26,6 +26,15 @@ export default defineConfig({
 					],
 				},
 				{
+					label: 'Deploy',
+					items: [
+						{ label: 'Overview', slug: 'deploy' },
+						{ label: 'Fly.io', slug: 'deploy/fly-io' },
+						{ label: 'Railway', slug: 'deploy/railway' },
+						{ label: 'Cloudflare Workers', slug: 'deploy/cloudflare-workers' },
+					],
+				},
+				{
 					label: 'Reference',
 					items: [
 						{ label: 'Configuration', slug: 'reference/configuration' },
