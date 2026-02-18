@@ -1,0 +1,25 @@
+---
+/**
+ * Override the default SiteTitle component to link the logo
+ * back to the landing page at https://tollbooth.loa212.com
+ * instead of the docs index.
+ */
+import type { Props } from '@astrojs/starlight/props';
+import Default from '@astrojs/starlight/components/SiteTitle.astro';
+---
+
+<a href="https://tollbooth.loa212.com" class="site-title-link">
+	<Default {...Astro.props}><slot /></Default>
+</a>
+
+<style>
+	.site-title-link {
+		text-decoration: none;
+		color: inherit;
+		display: contents;
+	}
+	/* Hide the default link inside the SiteTitle component */
+	.site-title-link :global(a) {
+		pointer-events: none;
+	}
+</style>

@@ -1,0 +1,13 @@
+/* Warm/amber accent to match the ⛩️ branding */
+:root {
+	--sl-color-accent-low: #3d2800;
+	--sl-color-accent: #d97706;
+	--sl-color-accent-high: #fef3c7;
+	--sl-hue-accent: 38;
+}
+
+:root[data-theme='light'] {
+	--sl-color-accent-low: #fef3c7;
+	--sl-color-accent: #d97706;
+	--sl-color-accent-high: #78350f;
+}

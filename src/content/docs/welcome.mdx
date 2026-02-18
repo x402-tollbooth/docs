@@ -1,0 +1,61 @@
+---
+title: Welcome to tollbooth
+description: Turn any API into a paid x402 API. One YAML config, zero code.
+---
+
+import { Card, CardGrid, Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+
+**tollbooth** is an API gateway that sits in front of your upstream APIs and charges callers per-request using the [x402](https://x402.org) payment protocol. No API keys, no subscriptions — just instant USDC micropayments.
+
+## Who is this for?
+
+- **API providers** who want to monetize endpoints without building billing infrastructure
+- **AI agent developers** who need machine-to-machine payment flows
+- **Anyone** who wants to add pay-per-request pricing to an existing API
+
+## Key features
+
+<CardGrid>
+	<Card title="YAML config" icon="document">
+		Define upstreams, routes, and pricing in a single `tollbooth.config.yaml` — no code required.
+	</Card>
+	<Card title="Dynamic pricing" icon="random">
+		Match on body fields, query params, and headers with glob patterns. Or use custom pricing functions.
+	</Card>
+	<Card title="Multi-upstream" icon="rocket">
+		Proxy to multiple APIs from a single gateway. Route by path, rewrite URLs, inject headers.
+	</Card>
+	<Card title="Lifecycle hooks" icon="puzzle">
+		Hook into `onRequest`, `onPriceResolved`, `onSettled`, `onResponse`, and `onError`.
+	</Card>
+	<Card title="x402 V2" icon="approve-check">
+		Modern payment headers with auto-discovery at `/.well-known/x402`.
+	</Card>
+	<Card title="Multi-chain" icon="sun">
+		Accept USDC payments on Base, Base Sepolia, Solana, or any supported network.
+	</Card>
+</CardGrid>
+
+## Install
+
+<Tabs>
+	<TabItem label="bun">
+		```bash
+		bun add x402-tollbooth
+		```
+	</TabItem>
+	<TabItem label="npm">
+		```bash
+		npm install x402-tollbooth
+		```
+	</TabItem>
+	<TabItem label="pnpm">
+		```bash
+		pnpm add x402-tollbooth
+		```
+	</TabItem>
+</Tabs>
+
+---
+
+**Next:** [Getting Started →](/getting-started/)
