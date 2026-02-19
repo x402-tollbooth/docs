@@ -53,6 +53,10 @@ routes:
 - **Match rules** inspect `body.model` using glob patterns to set per-model pricing — Haiku is cheap, Opus is premium.
 - **Fallback** catches any model that doesn't match a rule (e.g. new models Anthropic releases).
 
+:::caution[Protect clients from upstream failures]
+Since Anthropic is a paid upstream that can return `5xx` errors, consider adding `settlement: after-response` to this route. If the upstream fails, the client's payment is never settled and they keep their funds. See the [Refund Protection](/guides/refund-protection/) guide.
+:::
+
 ## Run it
 
 ```bash
