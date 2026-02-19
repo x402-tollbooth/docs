@@ -58,6 +58,7 @@ export default defineConfig({
 			],
 			components: {
 				SiteTitle: './src/components/SiteTitle.astro',
+				PageTitle: './src/components/PageTitle.astro',
 			},
 		}),
 	],
