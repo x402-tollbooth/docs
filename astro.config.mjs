@@ -10,6 +10,10 @@ export default defineConfig({
 		starlight({
 			title: 'tollbooth',
 			favicon: '/favicon.svg',
+			editLink: {
+				baseUrl: 'https://github.com/Loa212/tollbooth-docs/edit/main/',
+			},
+			lastUpdated: true,
 			social: [
 				{ icon: 'github', label: 'GitHub', href: 'https://github.com/Loa212/x402-tollbooth' },
 			],
