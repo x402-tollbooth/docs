@@ -36,6 +36,7 @@ export default defineConfig({
 						{ label: 'Overview', slug: 'deploy' },
 						{ label: 'Fly.io', slug: 'deploy/fly-io' },
 						{ label: 'Railway', slug: 'deploy/railway' },
+						{ label: 'Production (VPS)', slug: 'deploy/production' },
 						{ label: 'Cloudflare Workers', slug: 'deploy/cloudflare-workers' },
 					],
 				},

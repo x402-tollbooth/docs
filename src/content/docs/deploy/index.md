@@ -9,6 +9,7 @@ Tollbooth ships as a Docker image at `ghcr.io/loa212/x402-tollbooth`, so it runs
 |---|---|---|
 | Fly.io | **Supported** | [Fly.io guide](/deploy/fly-io/) |
 | Railway | **Supported** | [Railway guide](/deploy/railway/) |
+| VPS + Nginx | **Supported** | [Production guide](/deploy/production/) |
 | Cloudflare Workers | **Not compatible** | [Compatibility notes](/deploy/cloudflare-workers/) |
 | Any Docker host | **Supported** | See [Getting Started](/getting-started/) |
 
