@@ -16,6 +16,7 @@ export default defineConfig({
 			lastUpdated: true,
 			social: [
 				{ icon: 'github', label: 'GitHub', href: 'https://github.com/Loa212/x402-tollbooth' },
+				{ icon: 'github', label: 'Docs repo', href: 'https://github.com/Loa212/tollbooth-docs' },
 			],
 			customCss: ['./src/styles/custom.css'],
 			sidebar: [
