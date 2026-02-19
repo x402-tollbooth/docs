@@ -112,7 +112,7 @@ export default async (ctx: ResponseHookContext) => {
   }
 
   // Don't settle if the model returned an empty response
-  if (body?.content?.[0]?.text?.length === 0) {
+  if (!body?.content?.length || body.content[0]?.text?.length === 0) {
     return { settle: false };
   }
 
@@ -141,6 +141,8 @@ export default async (ctx) => {
   if (ctx.response.status === 429) {
     return { settle: false };
   }
+
+  return { settle: true };
 };
 ```
 
@@ -149,7 +151,9 @@ export default async (ctx) => {
 ```ts
 // hooks/refund-empty-completion.ts
 export default async (ctx) => {
-  const body = ctx.response.body as any;
+  const body = ctx.response.body as
+    | { choices?: unknown[]; content?: unknown[] }
+    | undefined;
 
   // OpenAI-style: check if choices array is empty
   if (body?.choices?.length === 0) {
@@ -160,6 +164,8 @@ export default async (ctx) => {
   if (body?.content?.length === 0) {
     return { settle: false };
   }
+
+  return { settle: true };
 };
 ```
 
