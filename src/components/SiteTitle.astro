@@ -2,24 +2,62 @@
 /**
  * Override the default SiteTitle component to link the logo
  * back to the landing page at https://tollbooth.loa212.com
- * instead of the docs index.
+ * instead of the docs index, and add the shrine emoji.
  */
-import type { Props } from '@astrojs/starlight/props';
-import Default from '@astrojs/starlight/components/SiteTitle.astro';
+import { logos } from 'virtual:starlight/user-images';
+import config from 'virtual:starlight/user-config';
+const { siteTitle } = Astro.locals.starlightRoute;
 ---
 
-<a href="https://tollbooth.loa212.com" class="site-title-link">
-	<Default {...Astro.props}><slot /></Default>
+<a href="https://tollbooth.loa212.com/" class="site-title sl-flex">
+	{
+		config.logo && logos.dark && (
+			<>
+				<img
+					class:list={{ 'light:sl-hidden print:hidden': !('src' in config.logo) }}
+					alt={config.logo.alt}
+					src={logos.dark.src}
+					width={logos.dark.width}
+					height={logos.dark.height}
+				/>
+				{!('src' in config.logo) && (
+					<img
+						class="dark:sl-hidden print:block"
+						alt={config.logo.alt}
+						src={logos.light?.src}
+						width={logos.light?.width}
+						height={logos.light?.height}
+					/>
+				)}
+			</>
+		)
+	}
+	<span class:list={{ 'sr-only': config.logo?.replacesTitle }} translate="no">
+		⛩️ {siteTitle}
+	</span>
 </a>
 
 <style>
-	.site-title-link {
-		text-decoration: none;
-		color: inherit;
-		display: contents;
-	}
-	/* Hide the default link inside the SiteTitle component */
-	.site-title-link :global(a) {
-		pointer-events: none;
+	@layer starlight.core {
+		.site-title {
+			align-items: center;
+			gap: var(--sl-nav-gap);
+			font-size: var(--sl-text-h4);
+			font-weight: 600;
+			color: var(--sl-color-text-accent);
+			text-decoration: none;
+			white-space: nowrap;
+			min-width: 0;
+		}
+		span {
+			overflow: hidden;
+		}
+		img {
+			height: calc(var(--sl-nav-height) - 2 * var(--sl-nav-pad-y));
+			width: auto;
+			max-width: 100%;
+			object-fit: contain;
+			object-position: 0 50%;
+		}
 	}
 </style>
