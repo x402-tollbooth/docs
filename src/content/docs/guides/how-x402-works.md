@@ -1,6 +1,20 @@
 ---
 title: How x402 Works
 description: A brief overview of the x402 payment protocol and how tollbooth implements it.
+keywords:
+  - x402
+  - protocol
+  - 402 payment required
+  - EIP-3009
+  - facilitator
+  - USDC
+  - settlement
+  - payment-signature
+  - payment-required header
+  - discovery
+  - .well-known/x402
+  - transferWithAuthorization
+  - EIP-712
 ---
 
 [x402](https://x402.org) is an open protocol for HTTP-native payments. It repurposes the `402 Payment Required` HTTP status code — originally reserved but never standardized — to enable machine-to-machine micropayments.

@@ -1,6 +1,16 @@
 ---
 title: "Example: Multi-Upstream Gateway"
 description: Route to different backends based on path and price each upstream independently.
+keywords:
+  - multi-upstream
+  - routing
+  - multiple backends
+  - path rewriting
+  - aggregator
+  - weather API
+  - geocoding
+  - OpenAI
+  - independent pricing
 ---
 
 A single tollbooth instance that routes to multiple backend APIs, each with its own pricing. One gateway, many upstreams.

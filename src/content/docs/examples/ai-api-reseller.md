@@ -1,6 +1,16 @@
 ---
 title: "Example: AI API Reseller"
 description: Wrap the Anthropic Claude API and resell access per-request via x402 with dynamic pricing by model.
+keywords:
+  - AI
+  - Anthropic
+  - Claude
+  - reseller
+  - per-model pricing
+  - match rules
+  - API monetization
+  - LLM
+  - wrap API
 ---
 
 Resell access to the Anthropic Claude API. Clients pay per-request via x402 — pricing adjusts automatically based on which model they request.

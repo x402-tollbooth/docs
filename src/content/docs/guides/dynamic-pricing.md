@@ -1,6 +1,18 @@
 ---
 title: Dynamic Pricing
 description: Configure per-model, per-param, and custom function pricing in tollbooth.
+keywords:
+  - pricing
+  - match rules
+  - glob pattern
+  - body match
+  - query match
+  - header match
+  - fallback price
+  - custom pricing function
+  - PricingFn
+  - per-model pricing
+  - static pricing
 ---
 
 tollbooth supports several pricing strategies, from a single static price to request-aware dynamic pricing with custom functions.

@@ -1,6 +1,23 @@
 ---
 title: Configuration Reference
 description: Complete reference for tollbooth.config.yaml — every field, type, default, and example.
+keywords:
+  - config
+  - YAML
+  - tollbooth.config.yaml
+  - gateway
+  - wallets
+  - accepts
+  - defaults
+  - upstreams
+  - routes
+  - match
+  - hooks
+  - environment variables
+  - path parameters
+  - path rewriting
+  - OpenAI-compatible
+  - pricing format
 ---
 
 tollbooth is configured via a single `tollbooth.config.yaml` file. All fields are documented below.

@@ -1,6 +1,18 @@
 ---
 title: "Example: Video Streaming Paywall"
 description: Pay-per-video using tollbooth with pricing by quality tier (4K, HD, SD).
+keywords:
+  - video
+  - streaming
+  - paywall
+  - HLS
+  - quality tier
+  - 4K
+  - HD
+  - SD
+  - pay-per-view
+  - CDN
+  - media
 ---
 
 Charge viewers per-video based on the quality tier they request. Higher quality costs more — no subscriptions, no accounts, just pay and watch.

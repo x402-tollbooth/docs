@@ -1,6 +1,16 @@
 ---
 title: Deploy on Fly.io
 description: Deploy tollbooth to Fly.io with scale-to-zero and health checks.
+keywords:
+  - Fly.io
+  - deploy
+  - Docker
+  - scale-to-zero
+  - health check
+  - secrets
+  - flyctl
+  - fly.toml
+  - container
 ---
 
 ## Prerequisites

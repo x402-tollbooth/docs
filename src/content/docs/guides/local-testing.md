@@ -1,6 +1,18 @@
 ---
 title: Local Development & Testing
 description: Run tollbooth locally with a dummy API, test 402 responses, and run end-to-end payments on testnet.
+keywords:
+  - local development
+  - testing
+  - testnet
+  - Base Sepolia
+  - e2e
+  - end-to-end
+  - dummy API
+  - wallet
+  - USDC faucet
+  - EIP-3009
+  - test client
 ---
 
 ## Local development (no wallet needed)

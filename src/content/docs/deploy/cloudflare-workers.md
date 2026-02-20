@@ -1,6 +1,15 @@
 ---
 title: Cloudflare Workers
 description: Why tollbooth can't run on Cloudflare Workers and what alternatives to use instead.
+keywords:
+  - Cloudflare Workers
+  - serverless
+  - compatibility
+  - limitations
+  - Cloudflare Tunnel
+  - cloudflared
+  - edge
+  - alternative
 ---
 
 Tollbooth **cannot run on Cloudflare Workers** in its current form. This page explains why and lists alternatives that still let you use Cloudflare's network.

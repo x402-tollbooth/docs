@@ -1,6 +1,17 @@
 ---
 title: Deploy
 description: Deploy tollbooth to production on your preferred platform.
+keywords:
+  - deploy
+  - Docker
+  - hosting
+  - platform
+  - container
+  - production
+  - Fly.io
+  - Railway
+  - VPS
+  - Cloudflare
 ---
 
 Tollbooth ships as a Docker image at `ghcr.io/loa212/x402-tollbooth`, so it runs anywhere that can pull and run a container.

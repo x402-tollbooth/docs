@@ -1,6 +1,17 @@
 ---
 title: CLI Reference
 description: All tollbooth CLI commands — init, start, dev, validate, and help.
+keywords:
+  - CLI
+  - commands
+  - tollbooth init
+  - tollbooth start
+  - tollbooth dev
+  - tollbooth validate
+  - OpenAPI
+  - programmatic API
+  - library
+  - createGateway
 ---
 
 tollbooth provides a CLI for managing your gateway.

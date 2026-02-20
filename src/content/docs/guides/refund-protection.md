@@ -1,6 +1,17 @@
 ---
 title: Refund Protection
 description: Use after-response settlement and hooks to avoid charging for failed upstream requests.
+keywords:
+  - refund
+  - settlement
+  - after-response
+  - before-response
+  - hooks
+  - onResponse
+  - upstream failure
+  - 5xx
+  - charge protection
+  - rate limit
 ---
 
 By default, tollbooth settles payment **before** proxying to the upstream API. This is fast, but it means the client pays even if the upstream returns an error. With `after-response` settlement, tollbooth defers settlement until the upstream responds — and only charges if the response is successful.

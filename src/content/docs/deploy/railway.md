@@ -1,6 +1,15 @@
 ---
 title: Deploy on Railway
 description: Deploy tollbooth to Railway with automatic HTTPS and GitHub auto-deploy.
+keywords:
+  - Railway
+  - deploy
+  - Docker
+  - GitHub auto-deploy
+  - HTTPS
+  - Dockerfile
+  - railway.toml
+  - container
 ---
 
 ## Prerequisites

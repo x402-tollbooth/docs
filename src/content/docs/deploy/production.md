@@ -1,6 +1,20 @@
 ---
 title: Production (VPS)
 description: Deploy tollbooth on a VPS with Nginx reverse proxy, TLS, and process management.
+keywords:
+  - VPS
+  - deploy
+  - Docker
+  - Nginx
+  - reverse proxy
+  - TLS
+  - SSL
+  - Let's Encrypt
+  - certbot
+  - systemd
+  - PM2
+  - Ubuntu
+  - self-hosted
 ---
 
 ## Prerequisites

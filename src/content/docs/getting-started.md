@@ -1,6 +1,19 @@
 ---
 title: Getting Started
 description: Install tollbooth and set up your first paid API endpoint in under 5 minutes.
+keywords:
+  - install
+  - setup
+  - quickstart
+  - tutorial
+  - config
+  - YAML
+  - 402 payment required
+  - proxy
+  - USDC
+  - Base
+  - facilitator
+  - npx tollbooth start
 ---
 
 ## Install
