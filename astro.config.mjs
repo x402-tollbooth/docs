@@ -15,8 +15,7 @@ export default defineConfig({
 			},
 			lastUpdated: true,
 			social: [
-				{ icon: 'github', label: 'GitHub', href: 'https://github.com/Loa212/x402-tollbooth' },
-				{ icon: 'github', label: 'Docs repo', href: 'https://github.com/Loa212/tollbooth-docs' },
+				{ icon: 'github', label: 'Tollbooth on GitHub', href: 'https://github.com/Loa212/x402-tollbooth' },
 			],
 			customCss: ['./src/styles/custom.css'],
 			sidebar: [
@@ -60,6 +59,7 @@ export default defineConfig({
 			components: {
 				SiteTitle: './src/components/SiteTitle.astro',
 				PageTitle: './src/components/PageTitle.astro',
+				Footer: './src/components/Footer.astro',
 			},
 		}),
 	],
