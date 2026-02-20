@@ -1,10 +1,15 @@
 ---
-return Astro.redirect("/welcome/");
+// Client-side redirect to /welcome/ — avoids the unstyled "Redirecting..."
+// flash that Astro.redirect() produces in static output mode.
 ---
 
 <html>
 	<head>
-		<style>html, body { background: #17191e; margin: 0; }</style>
+		<meta charset="utf-8">
+		<meta http-equiv="refresh" content="0;url=/welcome/">
+		<link rel="canonical" href="/welcome/">
+		<style>html, body { background: #17191e; margin: 0; height: 100%; }</style>
+		<script is:inline>window.location.replace('/welcome/');</script>
 	</head>
 	<body></body>
 </html>
