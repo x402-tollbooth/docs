@@ -16,6 +16,12 @@ keywords:
 
 Resell access to the Anthropic Claude API. Clients pay per-request via x402 — pricing adjusts automatically based on which model they request.
 
+:::tip[Full implementation]
+See [claude-reseller](https://github.com/Loa212/claude-reseller) for a complete, deployable setup with Dockerfile, Fly.io config, and an e2e payment test.
+
+Verified on Base Sepolia testnet — [view transaction](https://sepolia.basescan.org/tx/0x36d17cf33536727d8c22e9da7b8eb73cf32146851f8e9dc19bcbb43ddbf3a332).
+:::
+
 ## Use case
 
 You hold an Anthropic API key and want to monetize it. Instead of managing API keys, subscriptions, or billing dashboards, you put tollbooth in front of the Anthropic API and charge per-request in USDC. Cheaper models cost less, expensive models cost more.
