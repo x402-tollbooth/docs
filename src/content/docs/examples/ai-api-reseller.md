@@ -99,17 +99,17 @@ routes:
     path: "/v1/messages"
     type: token-based
     models:
-      claude-haiku-4-5-20251001: "$0.001/1k-tokens"
-      claude-sonnet-4-5-20250929: "$0.005/1k-tokens"
-      claude-opus-4-6: "$0.02/1k-tokens"
-    fallback: "$0.005/1k-tokens"
+      claude-haiku-4-5-20251001: "$0.001"
+      claude-sonnet-4-5-20250929: "$0.005"
+      claude-opus-4-6: "$0.02"
+    fallback: "$0.005"
 ```
 
 ### What's going on
 
 - **`type: token-based`** tells tollbooth to extract the `model` from the request body and price by token count. (`openai-compatible` is also accepted as an alias.)
-- **`models` map** sets per-model token rates — you control the markup per 1k tokens.
-- **Fallback** applies a default token rate for any model not explicitly listed.
+- **`models` map** sets per-model token rates. Prices are per 1k tokens (implicit when using `type: token-based`).
+- **Fallback** applies a default per-1k-token rate for any model not explicitly listed.
 - No match rules required — the gateway handles model detection automatically.
 
 ## Which should you pick?
