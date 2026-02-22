@@ -50,6 +50,10 @@ upstreams:
       authorization: "Bearer ${API_KEY}"
 
 routes:
+  "GET /health":
+    upstream: myapi
+    price: "$0"
+
   "GET /data":
     upstream: myapi
     price: "$0.01"
@@ -59,8 +63,8 @@ This tells tollbooth:
 
 - Listen on port 3000
 - Accept USDC payments on Base
-- Proxy `GET /data` to `https://api.example.com/data`
-- Charge $0.01 per request
+- Proxy `GET /health` for free — `price: "$0"` skips the x402 payment flow entirely
+- Proxy `GET /data` and charge $0.01 per request via x402
 - Expose discovery metadata at `/.well-known/x402`
 
 ## Start the gateway

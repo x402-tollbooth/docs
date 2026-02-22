@@ -254,6 +254,27 @@ routes:
 | `metadata` | `Record<string, unknown>` | — | Arbitrary metadata included in discovery responses |
 | `facilitator` | `string` | from top-level `facilitator` | Override the facilitator URL for this route |
 
+### Free routes (no payment)
+
+Set `price: "$0"` to bypass the x402 payment flow entirely. The route acts as a transparent proxy — no `402` response, no payment required.
+
+```yaml
+routes:
+  "GET /health":
+    upstream: myapi
+    price: "$0"           # free — proxied directly, no payment
+
+  "GET /data":
+    upstream: myapi
+    price: "$0.01"        # paid — requires x402 payment
+```
+
+This is useful for health checks, public listings, or mixed free/paid APIs where some endpoints should be openly accessible.
+
+:::note
+If `defaults.price` is set to `"$0"`, all routes without an explicit `price` are free by default.
+:::
+
 ### Path parameters
 
 Route paths support Express-style parameters with `:param` syntax:
@@ -439,6 +460,7 @@ Prices are specified as dollar strings and converted to USDC micro-units (6 deci
 
 | Dollar string | USDC micro-units | Actual USDC |
 |---------------|-----------------|-------------|
+| `"$0"` | 0 | Free — skips x402 payment flow |
 | `"$0.001"` | 1,000 | 0.001 USDC |
 | `"$0.01"` | 10,000 | 0.01 USDC |
 | `"$0.05"` | 50,000 | 0.05 USDC |
