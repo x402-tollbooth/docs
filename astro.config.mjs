@@ -45,6 +45,7 @@ export default defineConfig({
 						{ label: 'Dynamic Pricing', slug: 'guides/dynamic-pricing' },
 						{ label: 'Settlement Strategies', slug: 'guides/settlement-strategies' },
 						{ label: 'Security & Hardening', slug: 'guides/security-hardening' },
+						{ label: 'Streaming & SSE', slug: 'guides/streaming-sse' },
 						{ label: 'Local Testing', slug: 'guides/local-testing' },
 						{ label: 'How x402 Works', slug: 'guides/how-x402-works' },
 						{ label: 'Refund Protection', slug: 'guides/refund-protection' },
