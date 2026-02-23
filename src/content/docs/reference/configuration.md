@@ -94,7 +94,7 @@ Top-level server configuration.
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `port` | `number` | `3000` | Port the gateway listens on |
-| `discovery` | `boolean` | `true` | Expose `/.well-known/x402` discovery endpoint |
+| `discovery` | `boolean` | `true` | Expose `/.well-known/x402` and `/.well-known/openapi.json` discovery endpoints |
 | `hostname` | `string` | — | Optional hostname to bind to |
 
 ```yaml
@@ -189,6 +189,8 @@ Named upstream API configurations. Each upstream defines where requests are prox
 | `url` | `string` | **required** | Base URL of the upstream API |
 | `headers` | `Record<string, string>` | — | Headers to inject into proxied requests |
 | `timeout` | `number` | — | Request timeout in seconds for this upstream |
+| `openapi` | `string` | — | URL or file path to an OpenAPI spec. Routes are auto-imported at startup. See [OpenAPI integration](/guides/openapi/) |
+| `defaultPrice` | `string` | — | Default price applied to auto-imported routes (e.g. `"$0.01"`). Required when `openapi` is set |
 
 ```yaml
 upstreams:
@@ -203,6 +205,11 @@ upstreams:
     url: "https://api.dune.com/api"
     headers:
       x-dune-api-key: "${DUNE_API_KEY}"
+
+  myapi:
+    url: "https://api.example.com"
+    openapi: "https://api.example.com/openapi.json"   # auto-import routes at startup
+    defaultPrice: "$0.01"                              # applied to all imported routes
 ```
 
 ### Environment variable interpolation
