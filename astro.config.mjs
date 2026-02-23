@@ -58,6 +58,7 @@ export default defineConfig({
 						{ label: 'Fly.io', slug: 'deploy/fly-io' },
 						{ label: 'Railway', slug: 'deploy/railway' },
 						{ label: 'Production (VPS)', slug: 'deploy/production' },
+						{ label: 'Scaling & Shared Stores', slug: 'deploy/scaling-shared-stores' },
 						{ label: 'Cloudflare Workers', slug: 'deploy/cloudflare-workers' },
 					],
 				},
