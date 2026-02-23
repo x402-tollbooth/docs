@@ -132,6 +132,8 @@ The function can return:
 - A **number** — interpreted as a dollar amount (e.g. `0.01` = $0.01)
 - A **string** — interpreted as a dollar string (e.g. `"$0.01"`)
 
+Need advanced patterns (tiers, caps, token overrides, and guardrails)? See the [Pricing Functions Cookbook](/guides/pricing-functions-cookbook/).
+
 ## Example: pricing by model name
 
 A multi-provider AI gateway with per-model pricing:
@@ -195,4 +197,4 @@ routes:
 
 ---
 
-**Next:** [Local Testing →](/guides/local-testing/)
+**Next:** [Pricing Functions Cookbook →](/guides/pricing-functions-cookbook/)
