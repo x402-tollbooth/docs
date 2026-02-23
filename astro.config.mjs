@@ -47,6 +47,7 @@ export default defineConfig({
 						{ label: 'Local Testing', slug: 'guides/local-testing' },
 						{ label: 'How x402 Works', slug: 'guides/how-x402-works' },
 						{ label: 'Refund Protection', slug: 'guides/refund-protection' },
+						{ label: 'Monitoring & Observability', slug: 'guides/monitoring' },
 					],
 				},
 				{
