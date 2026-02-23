@@ -125,7 +125,7 @@ This lets you correlate a single request across tollbooth logs, upstream API log
 Expose these counters, histograms, and gauges for alerting and dashboarding. Names follow the `tollbooth_` prefix convention.
 
 :::note
-Avoid putting unbounded identifiers (wallet addresses, API keys, request IDs) into Prometheus labels. Use logs for high-cardinality analysis — metrics labels should have bounded, low-cardinality values only.
+Prometheus counters reset on process restart. Always use `rate()` or `increase()` for alerting and dashboards — never raw counter values. Avoid putting unbounded identifiers (wallet addresses, API keys, request IDs) into labels; use logs for high-cardinality analysis. Add static labels like `env` or `instance` at scrape time in your Prometheus config, not in application code.
 :::
 
 ### Counters
@@ -164,7 +164,7 @@ tollbooth's request lifecycle forms a conversion funnel. Tracking drop-off at ea
 ```
 All inbound requests
   ├─ 402 — payment required (client didn't pay)
-  ├─ 200 — success (free route, or paid + settled + upstream OK)
+  ├─ 200 — success (free route, cached session, or paid + settled + upstream OK)
   └─ 5xx — internal / upstream error
 ```
 
@@ -178,7 +178,7 @@ All inbound requests
         → tollbooth_revenue_usd_total                 ← revenue collected
 ```
 
-Payment verification and settlement are separate phases — a payment can be verified successfully (`payments_total{outcome="success"}`) while the subsequent settlement still fails (`settlements_total{outcome="failure"}`). If you see a gap between those two counters, check facilitator health. A gap between settlements and 200s means upstreams are erroring after payment (see [Refund Protection](/guides/refund-protection/)).
+Payment verification and settlement are separate phases — a payment can be verified successfully (`payments_total{outcome="success"}`) while the subsequent settlement still fails (`settlements_total{outcome="failure"}`). A healthy funnel has minimal drop-off between verification and settlement, and between settlement and successful upstream responses. If you see a gap between those first two counters, check facilitator health. A gap between settlements and 200s means upstreams are erroring after payment (see [Refund Protection](/guides/refund-protection/)).
 
 ## Dashboards you want
 
@@ -214,7 +214,7 @@ Use these as starting points and tune based on your traffic patterns:
 
 | SLO | Target | Metric |
 |---|---|---|
-| Settlement success rate | >= 99.5% | `tollbooth_settlements_total{outcome="success"} / tollbooth_settlements_total` |
+| Settlement success rate | >= 99.5% | `rate(tollbooth_settlements_total{outcome="success"}[5m]) / rate(tollbooth_settlements_total[5m])` |
 | Upstream p95 latency | < 800 ms | `histogram_quantile(0.95, rate(tollbooth_upstream_duration_seconds_bucket[5m]))` |
 | 5xx error rate | < 0.5% | `tollbooth_requests_total{status=~"5.."} / tollbooth_requests_total` |
 | Cache hit ratio | > 80% | `tollbooth_cache_hits_total / (tollbooth_cache_hits_total + tollbooth_cache_misses_total)` |
