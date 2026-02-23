@@ -43,12 +43,21 @@ export default defineConfig({
 					label: 'Guides',
 					items: [
 						{ label: 'Dynamic Pricing', slug: 'guides/dynamic-pricing' },
+						{ label: 'Pricing Functions Cookbook', slug: 'guides/pricing-functions-cookbook' },
+						{ label: 'LLM Pricing Operations', slug: 'guides/llm-pricing-operations' },
 						{ label: 'Settlement Strategies', slug: 'guides/settlement-strategies' },
+						{ label: 'Security & Hardening', slug: 'guides/security-hardening' },
+						{ label: 'Streaming & SSE', slug: 'guides/streaming-sse' },
 						{ label: 'OpenAPI Integration', slug: 'guides/openapi' },
 						{ label: 'Local Testing', slug: 'guides/local-testing' },
 						{ label: 'How x402 Works', slug: 'guides/how-x402-works' },
 						{ label: 'Refund Protection', slug: 'guides/refund-protection' },
+						{ label: 'Monitoring & Observability', slug: 'guides/monitoring' },
 					],
+				},
+				{
+					label: 'Observability',
+					items: [{ label: 'Analytics & Conversion', slug: 'observability/conversion-funnel' }],
 				},
 				{
 					label: 'Deploy',
@@ -57,6 +66,7 @@ export default defineConfig({
 						{ label: 'Fly.io', slug: 'deploy/fly-io' },
 						{ label: 'Railway', slug: 'deploy/railway' },
 						{ label: 'Production (VPS)', slug: 'deploy/production' },
+						{ label: 'Scaling & Shared Stores', slug: 'deploy/scaling-shared-stores' },
 						{ label: 'Cloudflare Workers', slug: 'deploy/cloudflare-workers' },
 					],
 				},
@@ -67,7 +77,7 @@ export default defineConfig({
 						{ label: 'CLI', slug: 'reference/cli' },
 					],
 				},
-			{
+				{
 					label: 'Examples',
 					items: [
 						{ label: 'Paid Articles Blog', slug: 'examples/paid-articles-blog' },

@@ -17,6 +17,10 @@ keywords:
 
 tollbooth supports several pricing strategies, from a single static price to request-aware dynamic pricing with custom functions.
 
+:::tip[Operating LLM pricing in production]
+For model table updates, fine-tune mapping, rollout strategy, and guardrails, see [LLM Pricing Operations](/guides/llm-pricing-operations/).
+:::
+
 ## Static pricing
 
 The simplest approach. Set a fixed `price` on the route:
@@ -128,9 +132,13 @@ The function can return:
 - A **number** — interpreted as a dollar amount (e.g. `0.01` = $0.01)
 - A **string** — interpreted as a dollar string (e.g. `"$0.01"`)
 
+Need advanced patterns (tiers, caps, token overrides, and guardrails)? See the [Pricing Functions Cookbook](/guides/pricing-functions-cookbook/).
+
 ## Example: pricing by model name
 
 A multi-provider AI gateway with per-model pricing:
+
+For the operational side (unknown-model safety, metrics, and gradual price rollouts), use the [LLM Pricing Operations](/guides/llm-pricing-operations/) playbook alongside this config.
 
 ```yaml
 upstreams:
@@ -189,4 +197,4 @@ routes:
 
 ---
 
-**Next:** [Local Testing →](/guides/local-testing/)
+**Next:** [Pricing Functions Cookbook →](/guides/pricing-functions-cookbook/)

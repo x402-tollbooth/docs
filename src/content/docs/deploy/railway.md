@@ -132,6 +132,7 @@ curl -i https://$DOMAIN/weather
 
 ## Notes
 
+- For multiple replicas/environments, configure Redis-backed shared stores before scaling out: [Scaling and Shared Stores](/deploy/scaling-shared-stores/).
 - Railway automatically provisions HTTPS and routes traffic to your container's listening port.
 - For custom domains, add them in **Settings > Networking > Custom Domain**.
 - Logs are available in the Railway dashboard or via `railway logs`.

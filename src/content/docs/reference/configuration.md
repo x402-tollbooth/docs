@@ -314,6 +314,10 @@ For proxying OpenAI-compatible APIs (OpenAI, OpenRouter, LiteLLM, Ollama, etc.),
 
 The gateway auto-extracts the `model` field from the JSON request body and prices the request using a built-in table of common models (GPT-4o, Claude, Gemini, Llama, Mistral, DeepSeek, etc.).
 
+:::tip[Operational playbook]
+For model lifecycle handling, custom fine-tune mapping strategy, rollout safety, and tuning metrics, see [LLM Pricing Operations](/guides/llm-pricing-operations/).
+:::
+
 #### Basic example
 
 ```yaml
