@@ -43,6 +43,7 @@ export default defineConfig({
 					label: 'Guides',
 					items: [
 						{ label: 'Dynamic Pricing', slug: 'guides/dynamic-pricing' },
+						{ label: 'Pricing Functions Cookbook', slug: 'guides/pricing-functions-cookbook' },
 						{ label: 'Settlement Strategies', slug: 'guides/settlement-strategies' },
 						{ label: 'Security & Hardening', slug: 'guides/security-hardening' },
 						{ label: 'Streaming & SSE', slug: 'guides/streaming-sse' },
