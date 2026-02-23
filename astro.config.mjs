@@ -50,6 +50,10 @@ export default defineConfig({
 					],
 				},
 				{
+					label: 'Observability',
+					items: [{ label: 'Analytics & Conversion', slug: 'observability/conversion-funnel' }],
+				},
+				{
 					label: 'Deploy',
 					items: [
 						{ label: 'Overview', slug: 'deploy' },
@@ -66,7 +70,7 @@ export default defineConfig({
 						{ label: 'CLI', slug: 'reference/cli' },
 					],
 				},
-			{
+				{
 					label: 'Examples',
 					items: [
 						{ label: 'Paid Articles Blog', slug: 'examples/paid-articles-blog' },
