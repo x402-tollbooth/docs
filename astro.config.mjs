@@ -43,6 +43,7 @@ export default defineConfig({
 					label: 'Guides',
 					items: [
 						{ label: 'Dynamic Pricing', slug: 'guides/dynamic-pricing' },
+						{ label: 'LLM Pricing Operations', slug: 'guides/llm-pricing-operations' },
 						{ label: 'Settlement Strategies', slug: 'guides/settlement-strategies' },
 						{ label: 'Local Testing', slug: 'guides/local-testing' },
 						{ label: 'How x402 Works', slug: 'guides/how-x402-works' },

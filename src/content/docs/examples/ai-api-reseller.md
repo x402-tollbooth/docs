@@ -28,6 +28,8 @@ You hold an Anthropic API key and want to monetize it. Instead of managing API k
 
 There are two ways to price this: **flat per-request** or **token-based**. You can pick whichever fits your business.
 
+For production operations (model table updates, fine-tune mapping, safe rollouts, and metrics), see [LLM Pricing Operations](/guides/llm-pricing-operations/).
+
 ## Option A: Flat per-request pricing
 
 Charge a fixed amount per API call, regardless of how many tokens the request uses.
