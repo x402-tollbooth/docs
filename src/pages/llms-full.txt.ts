@@ -28,6 +28,7 @@ export const GET: APIRoute = async () => {
 		'welcome',
 		'getting-started',
 		'guides/dynamic-pricing',
+		'guides/streaming-sse',
 		'guides/local-testing',
 		'guides/how-x402-works',
 		'guides/refund-protection',

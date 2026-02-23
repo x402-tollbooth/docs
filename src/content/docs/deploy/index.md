@@ -25,3 +25,5 @@ Tollbooth ships as a Docker image at `ghcr.io/loa212/x402-tollbooth`, so it runs
 | Any Docker host | **Supported** | See [Getting Started](/getting-started/) |
 
 All guides assume you already have a `tollbooth.config.yaml`. If you don't, see [Getting Started](/getting-started/) first.
+
+If you run multiple tollbooth instances or autoscale, configure Redis-backed shared state first: [Scaling and Shared Stores](/deploy/scaling-shared-stores/).
