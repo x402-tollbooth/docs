@@ -124,6 +124,10 @@ This lets you correlate a single request across tollbooth logs, upstream API log
 
 Expose these counters, histograms, and gauges for alerting and dashboarding. Names follow the `tollbooth_` prefix convention.
 
+:::note
+Avoid putting unbounded identifiers (wallet addresses, API keys, request IDs) into Prometheus labels. Use logs for high-cardinality analysis — metrics labels should have bounded, low-cardinality values only.
+:::
+
 ### Counters
 
 | Metric | Labels | Description |
@@ -153,18 +157,28 @@ Expose these counters, histograms, and gauges for alerting and dashboarding. Nam
 
 ## Payment funnel
 
-tollbooth's request lifecycle forms a conversion funnel. Tracking drop-off at each stage tells you exactly where revenue is lost:
+tollbooth's request lifecycle forms a conversion funnel. Tracking drop-off at each stage tells you exactly where revenue is lost.
+
+**Request outcomes** (from `tollbooth_requests_total`):
 
 ```
-tollbooth_requests_total                    ← all inbound traffic
-  → status=402                              ← clients that didn't pay
-  → tollbooth_payments_total{outcome="success"}  ← valid payment received
+All inbound requests
+  ├─ 402 — payment required (client didn't pay)
+  ├─ 200 — success (free route, or paid + settled + upstream OK)
+  └─ 5xx — internal / upstream error
+```
+
+**Paid-request pipeline** (separate counters):
+
+```
+402 issued
+  → tollbooth_payments_total{outcome="success"}      ← payment verified
     → tollbooth_settlements_total{outcome="success"}  ← settled on-chain
       → tollbooth_requests_total{status="200"}        ← upstream responded OK
         → tollbooth_revenue_usd_total                 ← revenue collected
 ```
 
-A healthy funnel has minimal drop-off between payments and settlements. If you see a gap between `payments_total{outcome="success"}` and `settlements_total{outcome="success"}`, settlement is failing — check facilitator health. A gap between settlements and 200s means upstreams are erroring after payment (see [Refund Protection](/guides/refund-protection/)).
+Payment verification and settlement are separate phases — a payment can be verified successfully (`payments_total{outcome="success"}`) while the subsequent settlement still fails (`settlements_total{outcome="failure"}`). If you see a gap between those two counters, check facilitator health. A gap between settlements and 200s means upstreams are erroring after payment (see [Refund Protection](/guides/refund-protection/)).
 
 ## Dashboards you want
 
@@ -179,7 +193,7 @@ If you're using Grafana (or any Prometheus-compatible dashboarding tool), these 
 ### Revenue & payments
 
 - **Revenue rate** — `rate(tollbooth_revenue_usd_total[5m])` by `route`. Shows real-time earning velocity.
-- **Cumulative revenue** — `tollbooth_revenue_usd_total` by `route`. Total revenue per route since last restart.
+- **Cumulative revenue** — `tollbooth_revenue_usd_total` by `route`. Total revenue per route since last restart. If you need persistent revenue accounting across restarts, export metrics to a remote store (e.g. Prometheus with long-term storage) or emit settlement events to an external analytics system — tollbooth itself is not an accounting system.
 - **Settlement success rate** — `rate(tollbooth_settlements_total{outcome="success"}[5m]) / rate(tollbooth_settlements_total[5m])`. Alert if this drops below 99%.
 - **Settlement latency p95** — `histogram_quantile(0.95, rate(tollbooth_settlement_duration_seconds_bucket[5m]))`. Facilitator latency over 500 ms warrants investigation.
 - **Payment rejection rate** — `rate(tollbooth_payments_total{outcome="rejected"}[5m])`. Rejections mean invalid signatures or insufficient funds.
@@ -201,7 +215,7 @@ Use these as starting points and tune based on your traffic patterns:
 | SLO | Target | Metric |
 |---|---|---|
 | Settlement success rate | >= 99.5% | `tollbooth_settlements_total{outcome="success"} / tollbooth_settlements_total` |
-| Upstream p95 latency | < 800 ms | `histogram_quantile(0.95, tollbooth_upstream_duration_seconds)` |
+| Upstream p95 latency | < 800 ms | `histogram_quantile(0.95, rate(tollbooth_upstream_duration_seconds_bucket[5m]))` |
 | 5xx error rate | < 0.5% | `tollbooth_requests_total{status=~"5.."} / tollbooth_requests_total` |
 | Cache hit ratio | > 80% | `tollbooth_cache_hits_total / (tollbooth_cache_hits_total + tollbooth_cache_misses_total)` |
 
