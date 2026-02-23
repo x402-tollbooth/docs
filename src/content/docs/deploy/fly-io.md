@@ -134,6 +134,7 @@ curl -i https://my-tollbooth.fly.dev/weather
 
 ## Notes
 
+- If you run more than one machine (or multi-region), use Redis-backed shared stores: [Scaling and Shared Stores](/deploy/scaling-shared-stores/).
 - Fly machines cold-start in ~1-2 seconds. Set `min_machines_running = 1` if you need zero cold starts.
 - For multi-region deployments, duplicate the `[[vm]]` section or use `fly scale count 2 --region iad,cdg`.
 - Logs: `fly logs --app my-tollbooth`
