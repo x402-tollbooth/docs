@@ -1,7 +1,7 @@
 ---
 /**
  * Override the default SiteTitle component to link the logo
- * back to the landing page at https://tollbooth.loa212.com
+ * back to the landing page at https://tollbooth.sh
  * instead of the docs index, and add the shrine emoji.
  */
 import { logos } from 'virtual:starlight/user-images';
@@ -9,7 +9,7 @@ import config from 'virtual:starlight/user-config';
 const { siteTitle } = Astro.locals.starlightRoute;
 ---
 
-<a href="https://tollbooth.loa212.com/" class="site-title sl-flex">
+<a href="https://tollbooth.sh/" class="site-title sl-flex">
 	{
 		config.logo && logos.dark && (
 			<>

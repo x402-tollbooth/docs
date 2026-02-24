@@ -5,7 +5,7 @@ import { defineConfig } from 'astro/config';
 // https://astro.build/config
 export default defineConfig({
 	output: 'static',
-	site: 'https://docs.tollbooth.loa212.com',
+	site: 'https://docs.tollbooth.sh',
 	integrations: [
 		starlight({
 			title: 'tollbooth',
@@ -13,7 +13,7 @@ export default defineConfig({
 			head: [
 				{
 					tag: 'meta',
-					attrs: { property: 'og:image', content: 'https://docs.tollbooth.loa212.com/og-image.png' },
+					attrs: { property: 'og:image', content: 'https://docs.tollbooth.sh/og-image.png' },
 				},
 				{
 					tag: 'meta',
@@ -25,7 +25,7 @@ export default defineConfig({
 				},
 				{
 					tag: 'meta',
-					attrs: { name: 'twitter:image', content: 'https://docs.tollbooth.loa212.com/og-image.png' },
+					attrs: { name: 'twitter:image', content: 'https://docs.tollbooth.sh/og-image.png' },
 				},
 			],
 			editLink: {

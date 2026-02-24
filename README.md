@@ -2,7 +2,7 @@
 
 Documentation site for [tollbooth](https://github.com/Loa212/x402-tollbooth) — an x402 payment gateway for APIs.
 
-**Live:** https://docs.tollbooth.loa212.com
+**Live:** https://docs.tollbooth.sh
 
 ## What is tollbooth?
 

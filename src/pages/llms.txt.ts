@@ -1,7 +1,7 @@
 import { getCollection } from 'astro:content';
 import type { APIRoute } from 'astro';
 
-const SITE = 'https://docs.tollbooth.loa212.com';
+const SITE = 'https://docs.tollbooth.sh';
 
 export const GET: APIRoute = async () => {
 	const docs = await getCollection('docs');
