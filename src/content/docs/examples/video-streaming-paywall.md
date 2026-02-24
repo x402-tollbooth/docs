@@ -91,7 +91,7 @@ Client                        Tollbooth                   Video Origin
   │  (sign $0.10 USDC payment)   │                              │
   │                              │                              │
   │  GET /video/abc123?quality=hd│                              │
-  │  + X-PAYMENT header          │                              │
+  │  + payment-signature header   │                              │
   │─────────────────────────────>│                              │
   │                              │  verify + settle payment     │
   │                              │                              │

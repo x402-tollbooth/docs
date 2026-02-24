@@ -78,7 +78,7 @@ routes:
 
 ## Option B: Token-based pricing
 
-Charge based on actual token usage. Set `type: token-based` and tollbooth reads the `model` field from the request body automatically — no match rules needed.
+Price per-request based on which model is used. Set `type: token-based` and tollbooth reads the `model` field from the request body automatically — no match rules needed.
 
 ```yaml
 # tollbooth.config.yaml
@@ -115,21 +115,21 @@ routes:
 
 ### What's going on
 
-- **`type: token-based`** tells tollbooth to extract the `model` from the request body and price by token count. (`openai-compatible` is also accepted as an alias.)
-- **`models` map** sets per-model token rates. Prices are per 1k tokens (implicit when using `type: token-based`).
-- **Fallback** applies a default per-1k-token rate for any model not explicitly listed.
+- **`type: token-based`** tells tollbooth to extract the `model` from the request body and look up a per-request price. (`openai-compatible` is also accepted as an alias.)
+- **`models` map** sets a flat per-request price for each model. The price is charged once per API call, not per token.
+- **Fallback** applies a default per-request price for any model not explicitly listed.
 - No match rules required — the gateway handles model detection automatically.
 
 ## Which should you pick?
 
-| | Flat per-request | Token-based |
+| | Flat per-request (match rules) | Token-based (model lookup) |
 |---|---|---|
-| **Simplicity** | Simpler to reason about — every call has a known price | Price varies with usage |
-| **Predictability** | Buyers know exactly what each call costs upfront | Buyers pay proportionally to what they use |
-| **Fairness** | A 10-token request costs the same as a 4,000-token request | Long conversations cost more, short ones cost less |
-| **Risk** | You can lose money on heavy requests if your flat price is too low | Tracks actual upstream cost more closely |
+| **Simplicity** | You write explicit match rules for each model family | Gateway auto-detects model and looks up price — no match rules |
+| **Flexibility** | Glob patterns match model families (e.g. `claude-sonnet-*`) | Exact model names from a built-in table + your overrides |
+| **Maintenance** | Update match rules when new models launch | Built-in table covers common models; add overrides as needed |
+| **Pricing** | Both charge a flat per-request price | Both charge a flat per-request price |
 
-**Rule of thumb:** use flat pricing for simple, predictable APIs. Use token-based pricing when request sizes vary widely and you want to avoid subsidizing heavy usage.
+**Rule of thumb:** use match rules when you want to price by model family with glob patterns. Use token-based when you want automatic per-model pricing without writing match rules.
 
 :::caution[Protect clients from upstream failures]
 Since Anthropic is a paid upstream that can return `5xx` errors, consider adding `settlement: after-response` to this route. If the upstream fails, the client's payment is never settled and they keep their funds. See the [Refund Protection](/guides/refund-protection/) guide.
@@ -158,7 +158,7 @@ Client                        Tollbooth                     Anthropic
   │  (sign $0.015 USDC payment)  │                              │
   │                              │                              │
   │  POST /v1/messages           │                              │
-  │  + X-PAYMENT header          │                              │
+  │  + payment-signature header   │                              │
   │─────────────────────────────>│                              │
   │                              │  verify + settle payment     │
   │                              │                              │

@@ -141,7 +141,7 @@ Client                        Tollbooth                     Blog Server
   │  (sign $0.01 USDC payment)   │                              │
   │                              │                              │
   │  GET /articles/my-post       │                              │
-  │  + X-PAYMENT header          │                              │
+  │  + payment-signature header   │                              │
   │─────────────────────────────>│                              │
   │                              │  verify + settle payment     │
   │                              │                              │
