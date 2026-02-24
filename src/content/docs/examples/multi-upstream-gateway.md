@@ -105,7 +105,7 @@ Client                        Tollbooth                   Upstreams
   │  (sign $0.005 USDC)          │                              │
   │                              │                              │
   │  GET /weather/london         │                              │
-  │  + X-PAYMENT header          │                              │
+  │  + payment-signature header   │                              │
   │─────────────────────────────>│                              │
   │                              │  GET /current.json?q=london  │
   │                              │───────────────────────────> Weather API

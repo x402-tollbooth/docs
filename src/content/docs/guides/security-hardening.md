@@ -46,7 +46,7 @@ Set CORS headers at the reverse proxy layer (Nginx, Caddy, Cloudflare) rather th
 # Nginx — restrict to your frontend origin
 add_header Access-Control-Allow-Origin "https://app.example.com" always;
 add_header Access-Control-Allow-Methods "GET, POST, OPTIONS" always;
-add_header Access-Control-Allow-Headers "Content-Type, Authorization, X-Payment, X-Payment-Response" always;
+add_header Access-Control-Allow-Headers "Content-Type, Authorization, payment-signature, payment-response" always;
 add_header Access-Control-Max-Age 86400 always;
 
 if ($request_method = OPTIONS) {
@@ -290,7 +290,7 @@ The `mock` facilitator accepts every payment without verification. If it reaches
 
 ### Wildcard CORS on a payment gateway
 
-Setting `Access-Control-Allow-Origin: *` on a gateway that handles `X-Payment` headers disables credentialed CORS and signals to attackers that cross-origin access is unrestricted.
+Setting `Access-Control-Allow-Origin: *` on a gateway that handles `payment-signature` headers disables credentialed CORS and signals to attackers that cross-origin access is unrestricted.
 
 **Fix:** Set the origin to your specific frontend domain(s). If you don't have a browser frontend, omit CORS headers entirely.
 
