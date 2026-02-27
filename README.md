@@ -17,3 +17,12 @@ pnpm build    # Build static site
 ```
 
 Built with [Astro](https://astro.build) + [Starlight](https://starlight.astro.build).
+
+## Contributing
+
+1. Fork this repo and create a branch
+2. Make your changes — docs live in `src/content/docs/`
+3. Run `pnpm dev` to preview locally at `localhost:4321`
+4. Open a PR against `main`
+
+Every page has an "Edit this page" link in the footer that takes you directly to the right file on GitHub.
