@@ -1,89 +1,75 @@
 ---
 title: Scaling and Shared Stores
-description: Run tollbooth safely across multiple instances using Redis-backed shared state.
+description: Run tollbooth across multiple instances using Redis-backed shared state.
 keywords:
   - scaling
-  - horizontal scaling
-  - autoscaling
   - redis
   - distributed store
   - rate limiting
   - sessions
   - verification cache
-  - high availability
-  - deployment
 ---
 
-When you run more than one tollbooth instance (multiple containers, pods, regions, or autoscaled workers), in-memory state is no longer safe.
-
-Use a shared external store, typically Redis, for anything that must stay consistent across instances.
+When running multiple tollbooth instances, in-memory state is no longer safe. Use Redis for anything that must stay consistent across instances.
 
 ## What must be shared
 
-- **Rate-limit counters:** all instances must read and increment the same counters.
-- **Time/session state:** short-lived request/payment session state must be visible no matter which instance receives the next request.
-- **Verification cache:** payment verification results and replay-protection markers must be shared to avoid duplicate verification and settlement races.
+| Store | Why |
+|---|---|
+| Rate-limit counters | All instances must read/increment the same counters |
+| Time/session state | Session started on instance A must be visible on instance B |
+| Verification cache | Prevents duplicate verification and settlement races |
 
-## What breaks without shared stores
+Without shared stores: rate limits become per-instance, sessions break across instances, and autoscaling creates fresh empty caches.
 
-- **Rate limits become inconsistent:** user A can bypass limits by being routed to a different instance.
-- **Session continuity breaks:** step 1 lands on instance A, step 2 on instance B, and B cannot find the session.
-- **Duplicate work and race conditions:** verification cache misses across instances can trigger repeated upstream verification attempts.
-- **Autoscaling amplifies drift:** scale-out events create fresh empty caches, increasing inconsistent behavior under load.
+## Configuration
 
-## Recommended Redis topology
+```yaml
+stores:
+  redis:
+    url: "redis://localhost:6379"
+    prefix: "tollbooth-prod"
 
-### Single Redis instance (good for small production / staging)
+  rateLimit:
+    backend: redis
 
-- One Redis node, private network access only.
-- Backups + persistence enabled (`AOF` or managed snapshots).
-- Good default for low/medium traffic and one-region deployments.
+  verificationCache:
+    backend: redis
 
-### Managed Redis (recommended for serious production)
+  timeSession:
+    backend: redis
+```
 
-- Use a managed service (Upstash, Elasticache, Redis Cloud, etc.) with TLS and auth.
-- Prefer regional placement close to tollbooth instances to reduce latency.
-- For high availability, use provider failover/replication options.
-- Set connection and operation timeouts; fail closed for payment-critical paths.
+You can override Redis connection details per store:
 
-## Suggested key and TTL patterns
+```yaml
+stores:
+  redis:
+    url: "redis://shared-cache:6379"
+    prefix: "tollbooth"
 
-Use a clear `keyPrefix` per state type. Keep values small and TTL-driven.
+  verificationCache:
+    backend: redis
+    redis:
+      url: "redis://verification-cache:6379"
+      prefix: "tollbooth-vc"
+```
 
-| Concern | Key pattern (example) | Typical TTL |
-|---|---|---|
-| Rate limits | `tollbooth:rl:{route}:{client_hash}` | 30-120s |
-| Session/time windows | `tollbooth:sess:{session_id}` | 5-30m |
-| Verification cache | `tollbooth:verify:{payment_hash}` | 10m-24h |
-
-Notes:
-
-- Hash/sanitize user identifiers before including them in keys.
-- Add jitter to TTLs when large key groups expire simultaneously.
-- Use atomic Redis operations for counters and one-time markers.
-
-## Docker Compose example (tollbooth + Redis)
+## Docker Compose example
 
 ```yaml
 services:
   redis:
     image: redis:7-alpine
-    command: ["redis-server", "--appendonly", "yes", "--maxmemory-policy", "allkeys-lru"]
+    command: ["redis-server", "--appendonly", "yes"]
     ports:
       - "6379:6379"
     volumes:
       - redis_data:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 5s
-      timeout: 3s
-      retries: 10
 
   tollbooth:
     image: ghcr.io/loa212/x402-tollbooth:latest
-    depends_on:
-      redis:
-        condition: service_healthy
+    depends_on: [redis]
     ports:
       - "3000:3000"
     environment:
@@ -95,62 +81,9 @@ volumes:
   redis_data:
 ```
 
-## Intended Redis config interface (planned)
+## Production recommendations
 
-:::note
-The snippets below document the intended direction for distributed store configuration. Field names may change as implementation evolves.
-:::
-
-### Option A: Single shared Redis connection
-
-```yaml
-stores:
-  provider: redis
-  redis:
-    url: ${REDIS_URL}
-    keyPrefix: tollbooth
-```
-
-### Option B: Per-store controls
-
-```yaml
-stores:
-  rateLimits:
-    provider: redis
-    url: ${REDIS_URL}
-    keyPrefix: tollbooth:rl
-    ttlSeconds: 60
-
-  sessions:
-    provider: redis
-    url: ${REDIS_URL}
-    keyPrefix: tollbooth:sess
-    ttlSeconds: 900
-
-  verificationCache:
-    provider: redis
-    url: ${REDIS_URL}
-    keyPrefix: tollbooth:verify
-    ttlSeconds: 3600
-```
-
-### Option C: Host/port style with TLS
-
-```yaml
-stores:
-  provider: redis
-  redis:
-    host: ${REDIS_HOST}
-    port: 6379
-    password: ${REDIS_PASSWORD}
-    tls: true
-    db: 0
-    keyPrefix: tollbooth
-```
-
-## Deployment checklist
-
-- Use shared Redis before enabling more than one tollbooth instance.
-- Keep Redis private (VPC/private network), TLS-enabled, and authenticated.
-- Monitor Redis latency, error rates, and memory pressure.
-- Test rolling deploys and autoscaling while replaying real traffic patterns.
+- Use a managed Redis service (Upstash, Elasticache, Redis Cloud) with TLS and auth.
+- Place Redis close to tollbooth instances to minimize latency.
+- Enable shared Redis **before** scaling to multiple instances.
+- Monitor Redis latency, error rates, and memory.
