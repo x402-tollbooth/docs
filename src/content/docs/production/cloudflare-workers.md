@@ -66,4 +66,4 @@ Run tollbooth in Docker on any VPS, point your domain's DNS to the VPS via Cloud
 
 ### Managed platforms
 
-For the simplest managed deployment, see the [Fly.io](/deploy/fly-io/) and [Railway](/deploy/railway/) guides.
+For the simplest managed deployment, see the [Fly.io](/production/fly-io/) and [Railway](/production/railway/) guides.

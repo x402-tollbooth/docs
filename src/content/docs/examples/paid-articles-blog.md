@@ -59,12 +59,12 @@ routes:
       fn: "./pricing/article-price.ts"
 ```
 
-### What's going on
+### How this config works
 
 - **Single upstream** pointing at the Bun blog server running on port 4000.
 - **Three free routes** — the homepage (`/`), article metadata (`/meta`), and article previews (`/preview`) all pass through without payment.
 - **One paid route** (`GET /articles/*`) gates full article content behind x402.
-- **`price.fn`** — instead of a static price, tollbooth calls a TypeScript function at request time to resolve the price. The function fetches the article's metadata from the blog backend and returns the author-set price. See the [Dynamic Pricing](/guides/dynamic-pricing/) guide for more on pricing functions.
+- **`price.fn`** — instead of a static price, tollbooth calls a TypeScript function at request time to resolve the price. The function fetches the article's metadata from the blog backend and returns the author-set price. See the [Dynamic Pricing](/pay-per-request/dynamic-pricing/) guide for more on pricing functions.
 
 ## The pricing function
 

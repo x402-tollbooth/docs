@@ -117,8 +117,8 @@ The settlement *strategy* (which service settles) is separate from settlement *t
 - **`before-response`** (default) — settle before calling the upstream
 - **`after-response`** — settle only after the upstream responds successfully
 
-Settlement timing applies to any strategy. See the [Refund Protection guide](/guides/refund-protection/) for details on configuring timing and writing custom refund hooks.
+Settlement timing applies to any strategy. See the [Refund Protection guide](/streaming/refund-protection/) for details on configuring timing and writing custom refund hooks.
 
 ---
 
-**Next:** [Refund Protection →](/guides/refund-protection/)
+**Next:** [Dynamic Pricing →](/pay-per-request/dynamic-pricing/)

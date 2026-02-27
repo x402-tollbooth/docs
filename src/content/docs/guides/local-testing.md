@@ -182,4 +182,4 @@ The first successful e2e payment was settled on Base Sepolia. You can verify it 
 
 ---
 
-**Next:** [How x402 Works →](/guides/how-x402-works/)
+**Next:** [OpenAPI Integration →](/guides/openapi/)

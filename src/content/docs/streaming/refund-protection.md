@@ -182,4 +182,4 @@ export default async (ctx) => {
 
 ---
 
-**Next:** [Configuration Reference →](/reference/configuration/)
+**Next:** [Security & Hardening →](/production/security/)

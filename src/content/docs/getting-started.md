@@ -2,6 +2,12 @@
 title: Getting Started
 description: Install tollbooth and set up your first paid API endpoint in under 5 minutes.
 keywords:
+  - x402
+  - payment gateway
+  - USDC
+  - micropayment
+  - API monetization
+  - pay-per-request
   - install
   - setup
   - quickstart
@@ -10,11 +16,18 @@ keywords:
   - YAML
   - 402 payment required
   - proxy
-  - USDC
   - Base
   - facilitator
   - npx tollbooth start
 ---
+
+**tollbooth** is an API gateway that sits in front of your upstream APIs and charges callers per-request using the [x402](https://x402.org) payment protocol. No API keys, no subscriptions — just instant USDC micropayments.
+
+**Who is this for:**
+
+- **API providers** who want to monetize endpoints without building billing infrastructure
+- **AI agent developers** who need machine-to-machine payment flows
+- **Anyone** who wants to add pay-per-request pricing to an existing API
 
 ## Install
 
@@ -113,11 +126,11 @@ tollbooth uses the x402 facilitator at `https://x402.org/facilitator` by default
 
 ## Next steps
 
-- [Configuration Reference](/reference/configuration/) — full reference for every config field
-- [Dynamic Pricing](/guides/dynamic-pricing/) — match rules, fallbacks, and custom pricing functions
+- [How x402 Works](/how-it-works/x402-protocol/) — understand the payment protocol
+- [Dynamic Pricing](/pay-per-request/dynamic-pricing/) — match rules, fallbacks, and custom pricing functions
 - [Local Testing](/guides/local-testing/) — try tollbooth locally with a dummy API
-- [How x402 Works](/guides/how-x402-works/) — understand the payment protocol
+- [Configuration Reference](/reference/configuration/) — full reference for every config field
 
 ---
 
-**Next:** [Dynamic Pricing →](/guides/dynamic-pricing/)
+**Next:** [How x402 Works →](/how-it-works/x402-protocol/)
