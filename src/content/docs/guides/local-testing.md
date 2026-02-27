@@ -1,4 +1,5 @@
 ---
+lastUpdated: 2026-02-27
 title: Local Development & Testing
 description: Run tollbooth locally with a dummy API, test 402 responses, and run end-to-end payments on testnet.
 keywords:

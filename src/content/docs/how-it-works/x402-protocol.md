@@ -1,4 +1,5 @@
 ---
+lastUpdated: 2026-02-27
 title: How x402 Works
 description: A brief overview of the x402 payment protocol and how tollbooth implements it.
 keywords:

@@ -1,4 +1,5 @@
 ---
+lastUpdated: 2026-02-27
 title: Configuration Reference
 description: Complete reference for tollbooth.config.yaml — every field, type, default, and example.
 keywords:

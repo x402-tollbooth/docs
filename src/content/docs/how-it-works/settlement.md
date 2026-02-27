@@ -1,4 +1,5 @@
 ---
+lastUpdated: 2026-02-27
 title: Settlement Strategies
 description: Understand tollbooth's pluggable settlement system and choose the right strategy for your use case.
 keywords:

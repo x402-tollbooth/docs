@@ -1,4 +1,5 @@
 ---
+lastUpdated: 2026-02-27
 title: OpenAPI Integration
 description: Import routes from an OpenAPI spec and export an enriched spec with x402 payment extensions.
 keywords:

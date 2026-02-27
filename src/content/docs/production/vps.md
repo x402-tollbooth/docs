@@ -1,4 +1,5 @@
 ---
+lastUpdated: 2026-02-27
 title: Production (VPS)
 description: Deploy tollbooth on a VPS with Nginx reverse proxy, TLS, and process management.
 keywords:

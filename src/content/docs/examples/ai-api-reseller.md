@@ -1,4 +1,5 @@
 ---
+lastUpdated: 2026-02-27
 title: "Example: AI API Reseller"
 description: Wrap the Anthropic Claude API and resell access per-request via x402 with dynamic pricing by model.
 keywords:

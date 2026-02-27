@@ -1,4 +1,5 @@
 ---
+lastUpdated: 2026-02-27
 title: LLM Pricing Operations
 description: Keep LLM pricing accurate and safe as model catalogs change.
 keywords:

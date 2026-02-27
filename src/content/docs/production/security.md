@@ -1,4 +1,5 @@
 ---
+lastUpdated: 2026-02-27
 title: Security & Hardening
 description: Production security checklist for tollbooth deployments.
 keywords:

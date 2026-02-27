@@ -1,4 +1,5 @@
 ---
+lastUpdated: 2026-02-27
 title: Monitoring & Observability
 description: Prometheus metrics and structured logging for production tollbooth deployments.
 keywords:

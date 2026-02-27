@@ -1,4 +1,5 @@
 ---
+lastUpdated: 2026-02-27
 title: Deploy on Railway
 description: Deploy tollbooth to Railway with automatic HTTPS and GitHub auto-deploy.
 keywords:

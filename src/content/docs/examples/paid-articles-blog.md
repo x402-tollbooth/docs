@@ -1,4 +1,5 @@
 ---
+lastUpdated: 2026-02-27
 title: "Example: Paid Articles Blog"
 description: A static blog where individual articles are paywalled via x402 with per-article dynamic pricing set by authors.
 keywords:

@@ -1,4 +1,5 @@
 ---
+lastUpdated: 2026-02-27
 title: Dynamic Pricing
 description: Configure per-model, per-param, and custom function pricing in tollbooth.
 keywords:

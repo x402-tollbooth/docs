@@ -1,4 +1,5 @@
 ---
+lastUpdated: 2026-02-27
 title: Pricing Functions Cookbook
 description: Copy-paste patterns for custom price.fn logic in tollbooth.
 keywords:

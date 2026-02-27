@@ -1,4 +1,5 @@
 ---
+lastUpdated: 2026-02-27
 title: Analytics & Conversion
 description: Payment funnel stages and core conversion metrics.
 keywords:

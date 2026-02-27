@@ -1,4 +1,5 @@
 ---
+lastUpdated: 2026-02-27
 title: Deploy on Fly.io
 description: Deploy tollbooth to Fly.io with scale-to-zero and health checks.
 keywords:

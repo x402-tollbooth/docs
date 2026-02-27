@@ -1,4 +1,5 @@
 ---
+lastUpdated: 2026-02-27
 title: CLI Reference
 description: All tollbooth CLI commands — init, start, dev, validate, and help.
 keywords:

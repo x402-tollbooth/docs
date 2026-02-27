@@ -1,4 +1,5 @@
 ---
+lastUpdated: 2026-02-27
 title: Streaming & SSE
 description: Run paid streaming endpoints with the right settlement timing.
 keywords:

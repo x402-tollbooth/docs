@@ -1,4 +1,5 @@
 ---
+lastUpdated: 2026-02-27
 title: "Example: Video Streaming Paywall"
 description: Pay-per-video using tollbooth with pricing by quality tier (4K, HD, SD).
 keywords:

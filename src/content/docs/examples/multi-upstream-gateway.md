@@ -1,4 +1,5 @@
 ---
+lastUpdated: 2026-02-27
 title: "Example: Multi-Upstream Gateway"
 description: Route to different backends based on path and price each upstream independently.
 keywords:

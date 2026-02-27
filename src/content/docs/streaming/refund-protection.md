@@ -1,4 +1,5 @@
 ---
+lastUpdated: 2026-02-27
 title: Refund Protection
 description: Use after-response settlement and hooks to avoid charging for failed upstream requests.
 keywords:

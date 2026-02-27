@@ -1,4 +1,5 @@
 ---
+lastUpdated: 2026-02-27
 title: Cloudflare Workers
 description: Why tollbooth can't run on Cloudflare Workers and what alternatives to use instead.
 keywords:

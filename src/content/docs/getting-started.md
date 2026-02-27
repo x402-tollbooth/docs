@@ -1,4 +1,5 @@
 ---
+lastUpdated: 2026-02-27
 title: Getting Started
 description: Install tollbooth and set up your first paid API endpoint in under 5 minutes.
 keywords:

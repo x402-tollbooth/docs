@@ -1,4 +1,5 @@
 ---
+lastUpdated: 2026-02-27
 title: Scaling and Shared Stores
 description: Run tollbooth across multiple instances using Redis-backed shared state.
 keywords:
