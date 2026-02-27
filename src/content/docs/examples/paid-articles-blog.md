@@ -19,7 +19,7 @@ keywords:
 A static blog where readers pay per-article in USDC via x402. Free previews, paid full content — each author sets their own price in markdown frontmatter.
 
 :::tip[Full implementation]
-See [paid-articles-blog](https://github.com/Loa212/paid-articles-blog) for the complete Bun + Hono server with sample articles and pricing function.
+See [paid-articles-blog](https://github.com/x402-tollbooth/paid-articles-blog) for the complete Bun + Hono server with sample articles and pricing function.
 :::
 
 ## Use case

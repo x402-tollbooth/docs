@@ -34,7 +34,7 @@ app = "my-tollbooth"
 primary_region = "iad"           # pick the region closest to your upstream APIs
 
 [build]
-  image = "ghcr.io/loa212/x402-tollbooth:latest"
+  image = "ghcr.io/x402-tollbooth/gateway:latest"
 
 [env]
   LOG_FORMAT = "json"
@@ -58,7 +58,7 @@ primary_region = "iad"           # pick the region closest to your upstream APIs
   memory = "256mb"
 ```
 
-> **Tip:** Pin a specific image tag (e.g. `ghcr.io/loa212/x402-tollbooth:0.3.0`) instead of `latest` for reproducible deploys.
+> **Tip:** Pin a specific image tag (e.g. `ghcr.io/x402-tollbooth/gateway:1.0.0`) instead of `latest` for reproducible deploys.
 
 ## 3. Mount your config file
 
@@ -69,7 +69,7 @@ Tollbooth expects `tollbooth.config.yaml` at `/app/tollbooth.config.yaml` inside
 Create a `Dockerfile.fly`:
 
 ```dockerfile
-FROM ghcr.io/loa212/x402-tollbooth:latest
+FROM ghcr.io/x402-tollbooth/gateway:latest
 COPY tollbooth.config.yaml /app/tollbooth.config.yaml
 ```
 

@@ -29,11 +29,11 @@ export default defineConfig({
 				},
 			],
 			editLink: {
-				baseUrl: 'https://github.com/Loa212/tollbooth-docs/edit/main/',
+				baseUrl: 'https://github.com/x402-tollbooth/docs/edit/main/',
 			},
 			lastUpdated: true,
 			social: [
-				{ icon: 'github', label: 'Tollbooth on GitHub', href: 'https://github.com/Loa212/x402-tollbooth' },
+				{ icon: 'github', label: 'Tollbooth on GitHub', href: 'https://github.com/x402-tollbooth/gateway' },
 			],
 			customCss: ['./src/styles/custom.css'],
 			sidebar: [

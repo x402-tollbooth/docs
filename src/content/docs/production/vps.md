@@ -36,10 +36,10 @@ docker run -d \
   -p 127.0.0.1:3000:3000 \
   -v $(pwd)/tollbooth.config.yaml:/app/tollbooth.config.yaml \
   --env-file .env \
-  ghcr.io/loa212/x402-tollbooth:latest
+  ghcr.io/x402-tollbooth/gateway:latest
 ```
 
-> **Tip:** Pin a specific image tag (e.g. `ghcr.io/loa212/x402-tollbooth:0.3.0`) instead of `latest` for reproducible deploys.
+> **Tip:** Pin a specific image tag (e.g. `ghcr.io/x402-tollbooth/gateway:1.0.0`) instead of `latest` for reproducible deploys.
 
 ### npx
 

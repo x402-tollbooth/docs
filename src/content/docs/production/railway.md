@@ -31,7 +31,7 @@ railway init
 Railway builds from a Dockerfile. Create `Dockerfile.railway`:
 
 ```dockerfile
-FROM ghcr.io/loa212/x402-tollbooth:latest
+FROM ghcr.io/x402-tollbooth/gateway:latest
 COPY tollbooth.config.yaml /app/tollbooth.config.yaml
 ```
 
@@ -83,8 +83,8 @@ If you've cloned the tollbooth repo and want to build from source:
 ### 1. Clone and configure
 
 ```bash
-git clone https://github.com/Loa212/x402-tollbooth.git
-cd x402-tollbooth
+git clone https://github.com/x402-tollbooth/gateway.git
+cd gateway
 ```
 
 Add your `tollbooth.config.yaml` to the project root.

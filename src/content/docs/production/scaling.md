@@ -68,7 +68,7 @@ services:
       - redis_data:/data
 
   tollbooth:
-    image: ghcr.io/loa212/x402-tollbooth:latest
+    image: ghcr.io/x402-tollbooth/gateway:latest
     depends_on: [redis]
     ports:
       - "3000:3000"

@@ -17,7 +17,7 @@ keywords:
 Resell access to the Anthropic Claude API. Clients pay per-request via x402 — pricing adjusts automatically based on which model they request.
 
 :::tip[Full implementation]
-See [claude-reseller](https://github.com/Loa212/claude-reseller) for a complete, deployable setup with Dockerfile, Fly.io config, and an e2e payment test.
+See [claude-reseller](https://github.com/x402-tollbooth/claude-reseller) for a complete, deployable setup with Dockerfile, Fly.io config, and an e2e payment test.
 
 Verified on Base Sepolia testnet — [view transaction](https://sepolia.basescan.org/tx/0x36d17cf33536727d8c22e9da7b8eb73cf32146851f8e9dc19bcbb43ddbf3a332).
 :::

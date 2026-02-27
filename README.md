@@ -1,6 +1,6 @@
 # tollbooth docs
 
-Documentation site for [tollbooth](https://github.com/Loa212/x402-tollbooth) — an x402 payment gateway for APIs.
+Documentation site for [tollbooth](https://github.com/x402-tollbooth/gateway) — an x402 payment gateway for APIs.
 
 **Live:** https://docs.tollbooth.sh
 

@@ -22,8 +22,8 @@ Try tollbooth locally with a dummy API — no wallets or real payments needed.
 ### 1. Clone and install
 
 ```bash
-git clone https://github.com/Loa212/x402-tollbooth.git
-cd x402-tollbooth
+git clone https://github.com/x402-tollbooth/gateway.git
+cd gateway
 bun install
 ```
 
