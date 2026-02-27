@@ -73,7 +73,7 @@ routes:
     fallback: "$0.01"
 ```
 
-### What's going on
+### How this config works
 
 - **Three upstreams** — weather, geocoding, and AI — each with their own base URL and auth headers.
 - **Path-based routing** sends requests to the right backend based on the public URL path.

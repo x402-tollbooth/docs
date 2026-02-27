@@ -25,7 +25,7 @@ keywords:
 
 ## Reverse proxy
 
-tollbooth should not be directly exposed to the internet. Place it behind a reverse proxy that handles TLS termination. See [Production (VPS)](/deploy/production/) for a full Nginx setup.
+tollbooth should not be directly exposed to the internet. Place it behind a reverse proxy that handles TLS termination. See [VPS + Nginx](/production/vps/) for a full Nginx setup.
 
 Your proxy must forward real client context:
 
@@ -83,4 +83,4 @@ For production beyond a single VPS, use Docker Secrets, a cloud secret manager, 
 
 ---
 
-**Next:** [Local Testing →](/guides/local-testing/)
+**Next:** [Monitoring →](/production/monitoring/)

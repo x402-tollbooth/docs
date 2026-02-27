@@ -109,7 +109,7 @@ Top-level server configuration.
 | `port` | `number` | `3000` | Port the gateway listens on |
 | `discovery` | `boolean` | `true` | Expose `/.well-known/x402` and `/.well-known/openapi.json` discovery endpoints |
 | `hostname` | `string` | — | Optional hostname to bind to |
-| `cors` | `boolean \| CorsConfig` | `false` | Enable CORS headers. `true` uses permissive defaults; pass an object to configure `origin`, `methods`, and `headers`. See [Security & Hardening](/guides/security-hardening/#cors) |
+| `cors` | `boolean \| CorsConfig` | `false` | Enable CORS headers. `true` uses permissive defaults; pass an object to configure `origin`, `methods`, and `headers`. See [Security & Hardening](/production/security/#cors) |
 | `trustProxy` | `boolean` | `false` | Trust `X-Forwarded-For` and `X-Forwarded-Proto` headers from a reverse proxy. Enable when running behind Nginx, Caddy, or a cloud load balancer |
 | `metrics` | `boolean` | `false` | Expose a Prometheus-compatible metrics endpoint at `/metrics` |
 
@@ -289,7 +289,7 @@ routes:
 | `hooks` | `RouteHooksConfig` | — | Per-route lifecycle hooks (override global hooks) |
 | `metadata` | `Record<string, unknown>` | — | Arbitrary metadata included in discovery responses |
 | `facilitator` | `string` | from top-level `facilitator` | Override the facilitator URL for this route |
-| `settlement` | `"before-response" \| "after-response"` | `"before-response"` | When to settle payment relative to the upstream request. See [Refund Protection](/guides/refund-protection/) |
+| `settlement` | `"before-response" \| "after-response"` | `"before-response"` | When to settle payment relative to the upstream request. See [Refund Protection](/streaming/refund-protection/) |
 | `rateLimit` | `RateLimitConfig` | from `defaults.rateLimit` | Override rate-limit for this route |
 | `verificationCache` | `VerificationCacheConfig` | — | Cache payment verification results to reduce facilitator calls on repeated payments |
 
@@ -357,7 +357,7 @@ For proxying OpenAI-compatible APIs (OpenAI, OpenRouter, LiteLLM, Ollama, etc.),
 The gateway auto-extracts the `model` field from the JSON request body and prices the request using a built-in table of common models (GPT-4o, Claude, Gemini, Llama, Mistral, DeepSeek, etc.).
 
 :::tip[Operational playbook]
-For model lifecycle handling, custom fine-tune mapping strategy, rollout safety, and tuning metrics, see [LLM Pricing Operations](/guides/llm-pricing-operations/).
+For model lifecycle handling, custom fine-tune mapping strategy, rollout safety, and tuning metrics, see [LLM Pricing](/pay-per-request/llm-pricing/).
 :::
 
 #### Basic example

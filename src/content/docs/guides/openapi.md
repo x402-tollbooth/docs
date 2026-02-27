@@ -140,7 +140,7 @@ This creates a `tollbooth.config.yaml` with route entries for each endpoint at a
 
 The exported spec at `/.well-known/openapi.json` is how AI agents and tool-calling frameworks can discover what your gateway offers and what each call costs. Point an agent's tool-loading step at that URL, and it gets a complete picture of available operations plus payment requirements — no separate discovery step needed.
 
-If your client is browser-based, make sure [`gateway.cors`](/guides/security-hardening/#cors) is configured so the spec endpoint is accessible cross-origin.
+If your client is browser-based, make sure [`gateway.cors`](/production/security/#cors) is configured so the spec endpoint is accessible cross-origin.
 
 ---
 
@@ -161,4 +161,4 @@ If your client is browser-based, make sure [`gateway.cors`](/guides/security-har
 
 ---
 
-**Next:** [Dynamic Pricing →](/guides/dynamic-pricing/)
+**Next:** [Analytics & Conversion →](/guides/analytics/)

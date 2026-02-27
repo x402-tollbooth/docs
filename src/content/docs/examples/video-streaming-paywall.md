@@ -61,7 +61,7 @@ routes:
     price: "$0.001"
 ```
 
-### What's going on
+### How this config works
 
 - **Video origin upstream** — your CDN or media server that stores the actual video files.
 - **Main route** (`GET /video/:video_id`) serves the HLS manifest. The `quality` query parameter determines the price.

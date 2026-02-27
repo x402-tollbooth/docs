@@ -118,4 +118,4 @@ When `gateway.discovery` is `true`, tollbooth exposes a `GET /.well-known/x402` 
 
 ---
 
-**Next:** [Configuration Reference →](/reference/configuration/)
+**Next:** [Settlement Strategies →](/how-it-works/settlement/)

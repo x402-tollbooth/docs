@@ -156,4 +156,4 @@ run();
 
 ---
 
-**Next:** [Local Development & Testing →](/guides/local-testing/)
+**Next:** [Streaming & SSE →](/streaming/streaming-sse/)

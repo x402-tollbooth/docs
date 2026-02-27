@@ -74,11 +74,11 @@ Start with token-based for general LLM APIs. Use flat pricing only when output s
 
 - Always set a conservative `fallback` for unknown models.
 - Keep an allowlist for approved model IDs on high-risk routes.
-- Prefer `settlement: after-response` on expensive upstreams where failures are common. See [Refund Protection](/guides/refund-protection/).
+- Prefer `settlement: after-response` on expensive upstreams where failures are common. See [Refund Protection](/streaming/refund-protection/).
 
 ---
 
 **Related:**
-- [Dynamic Pricing](/guides/dynamic-pricing/)
+- [Dynamic Pricing](/pay-per-request/dynamic-pricing/)
 - [Configuration Reference: Token-Based Routes](/reference/configuration/#token-based-routes)
 - [Example: AI API Reseller](/examples/ai-api-reseller/)

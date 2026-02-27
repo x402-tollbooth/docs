@@ -107,4 +107,4 @@ scrape_configs:
 
 ---
 
-**Next:** [Refund Protection →](/guides/refund-protection/)
+**Next:** [Scaling & Shared Stores →](/production/scaling/)

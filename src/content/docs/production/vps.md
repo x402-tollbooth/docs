@@ -186,5 +186,5 @@ curl -i https://tollbooth.example.com/weather
 ## Notes
 
 - Logs: `journalctl -u tollbooth -f` (systemd) or `docker logs -f tollbooth` (Docker).
-- To run multiple tollbooth instances, add an `upstream` block in Nginx with multiple `server` entries and use `proxy_pass http://upstream_name`. Use shared Redis stores so rate limits/sessions/cache stay consistent: [Scaling and Shared Stores](/deploy/scaling-shared-stores/).
+- To run multiple tollbooth instances, add an `upstream` block in Nginx with multiple `server` entries and use `proxy_pass http://upstream_name`. Use shared Redis stores so rate limits/sessions/cache stay consistent: [Scaling & Shared Stores](/production/scaling/).
 - If you put Cloudflare in front of Nginx, disable response buffering for streaming routes or use Cloudflare Tunnel.

@@ -28,7 +28,7 @@ You hold an Anthropic API key and want to monetize it. Instead of managing API k
 
 There are two ways to price this: **flat per-request** or **token-based**. You can pick whichever fits your business.
 
-For production operations (model table updates, fine-tune mapping, safe rollouts, and metrics), see [LLM Pricing Operations](/guides/llm-pricing-operations/).
+For production operations (model table updates, fine-tune mapping, safe rollouts, and metrics), see [LLM Pricing](/pay-per-request/llm-pricing/).
 
 ## Option A: Flat per-request pricing
 
@@ -69,7 +69,7 @@ routes:
     fallback: "$0.015"
 ```
 
-### What's going on
+### How this config works
 
 - **Single upstream** pointing at `api.anthropic.com` with your API key injected via env var.
 - **One route** (`POST /v1/messages`) mirrors the Anthropic Messages endpoint.
@@ -113,7 +113,7 @@ routes:
     fallback: "$0.005"
 ```
 
-### What's going on
+### How this config works
 
 - **`type: token-based`** tells tollbooth to extract the `model` from the request body and look up a per-request price. (`openai-compatible` is also accepted as an alias.)
 - **`models` map** sets a flat per-request price for each model. The price is charged once per API call, not per token.
@@ -132,7 +132,7 @@ routes:
 **Rule of thumb:** use match rules when you want to price by model family with glob patterns. Use token-based when you want automatic per-model pricing without writing match rules.
 
 :::caution[Protect clients from upstream failures]
-Since Anthropic is a paid upstream that can return `5xx` errors, consider adding `settlement: after-response` to this route. If the upstream fails, the client's payment is never settled and they keep their funds. See the [Refund Protection](/guides/refund-protection/) guide.
+Since Anthropic is a paid upstream that can return `5xx` errors, consider adding `settlement: after-response` to this route. If the upstream fails, the client's payment is never settled and they keep their funds. See the [Refund Protection](/streaming/refund-protection/) guide.
 :::
 
 ## Run it

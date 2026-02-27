@@ -64,10 +64,10 @@ The hook validates a signed session token and rejects with `401` when expired. T
 
 **Stream stalls after headers** — Disable proxy buffering (`proxy_buffering off;` in Nginx). Increase read timeouts for long-lived responses.
 
-**Works locally, breaks in production** — Check CDN/WAF buffering and HTTP/1.1 keep-alive behavior across load balancers. See [Production (VPS)](/deploy/production/).
+**Works locally, breaks in production** — Check CDN/WAF buffering and HTTP/1.1 keep-alive behavior across load balancers. See [VPS + Nginx](/production/vps/).
 
 **Repeated 402 prompts on reconnect** — Consider switching to a time-window session model to reduce payment friction.
 
 ---
 
-**See also:** [Refund Protection](/guides/refund-protection/) · [Configuration Reference](/reference/configuration/)
+**See also:** [Refund Protection](/streaming/refund-protection/) · [Configuration Reference](/reference/configuration/)

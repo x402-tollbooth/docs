@@ -51,7 +51,7 @@ For failure events, include `failure_code` and `failure_reason` so drop-off reas
 ## Key signals
 
 - **Gap between verification and settlement** — check facilitator health
-- **Gap between settlement and 200s** — upstreams are failing after payment (see [Refund Protection](/guides/refund-protection/))
+- **Gap between settlement and 200s** — upstreams are failing after payment (see [Refund Protection](/streaming/refund-protection/))
 - **High 402 rate with low attempt rate** — clients aren't paying, could be price too high or SDK issue
 
 :::caution
