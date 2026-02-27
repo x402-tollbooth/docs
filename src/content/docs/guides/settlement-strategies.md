@@ -4,7 +4,6 @@ description: Understand tollbooth's pluggable settlement system and choose the r
 keywords:
   - settlement
   - facilitator
-  - mock
   - self-hosted
   - on-chain
   - custom strategy
@@ -33,23 +32,9 @@ The facilitator verifies the payer's EIP-712 signature, submits the USDC `transf
 
 **Tradeoff:** depends on a third-party service for settlement.
 
-### `mock`
-
-Accepts all payments without settling anything on-chain. Every request with a payment header is treated as valid — no signature checks, no on-chain transactions.
-
-```yaml
-facilitator: mock
-```
-
-**When to use:** local development and testing. The [Local Testing guide](/guides/local-testing/) uses this to test 402 flows without wallets or testnet USDC.
-
-:::caution
-Never use `mock` in production. It accepts every payment without verification.
-:::
-
 ## Self-hosting options
 
-The built-in strategies cover most use cases, but you can go further when you need more control.
+The built-in facilitator covers most use cases, but you can go further when you need more control.
 
 ### Run your own facilitator
 
@@ -122,7 +107,6 @@ export default myStrategy;
 | Strategy | Infra needed | Speed | Decentralization | Use case |
 |---|---|---|---|---|
 | `facilitator` | None | ~200 ms | Depends on facilitator | Production default |
-| `mock` | None | Instant | N/A | Local dev / testing |
 | `local` (future) | Gas wallet + RPC | ~2–5 s | Fully self-sovereign | Production, no dependencies |
 | Custom | Varies | Varies | Varies | Free tiers, subscriptions, hybrid |
 

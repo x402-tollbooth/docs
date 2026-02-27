@@ -25,7 +25,7 @@ keywords:
 
 ## Reverse proxy
 
-tollbooth should not be directly exposed to the internet. Place it behind a reverse proxy that handles TLS.
+tollbooth should not be directly exposed to the internet. Place it behind a reverse proxy that handles TLS termination. See [Production (VPS)](/deploy/production/) for a full Nginx setup.
 
 Your proxy must forward real client context:
 
@@ -45,7 +45,7 @@ Only needed if your gateway receives browser requests. For server-to-server only
 Set CORS at the proxy layer or in tollbooth config. Always restrict origins to your specific frontend domain(s).
 
 :::caution
-Never set `Access-Control-Allow-Origin: *` on a gateway that handles payments.
+Never set `Access-Control-Allow-Origin: *` on a gateway that handles payments. Browsers will block credential headers, and it invites cross-origin abuse.
 :::
 
 ## Rate limiting

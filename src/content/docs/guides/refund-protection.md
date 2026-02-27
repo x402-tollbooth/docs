@@ -139,7 +139,7 @@ export default async (ctx: ResponseHookContext) => {
 | `ctx.response.status` | `number` | Upstream HTTP status code |
 | `ctx.response.body` | `unknown` | Parsed response body (if JSON) |
 | `ctx.response.headers` | `Record<string, string>` | Upstream response headers |
-| `ctx.request.body` | `unknown` | Original request body |
+| `ctx.req.body` | `unknown` | Original request body |
 | `ctx.route` | `RouteConfig` | The matched route configuration |
 | `ctx.payment` | `PaymentInfo` | Payment details (amount, payer, etc.) |
 

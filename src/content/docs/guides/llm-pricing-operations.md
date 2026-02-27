@@ -53,8 +53,9 @@ For fail-closed behavior on unknown models, reject them in a hook:
 const allowed = new Set(["gpt-4o", "gpt-4o-mini", "ft:gpt-4o:acme-support-v2"]);
 
 export default async (ctx) => {
-  const body = (ctx.request.body ?? {}) as { model?: string };
-  if (!body.model || !allowed.has(body.model)) {
+  const body = (ctx.req.body ?? {}) as { model?: string };
+  const model = body.model;
+  if (!model || !allowed.has(model)) {
     return { reject: true, status: 400, body: "Unsupported model" };
   }
 };

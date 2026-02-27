@@ -19,6 +19,13 @@ keywords:
   - token-based
   - OpenAI-compatible
   - pricing format
+  - settlement
+  - cors
+  - trustProxy
+  - metrics
+  - stores
+  - rateLimit
+  - verificationCache
 ---
 
 tollbooth is configured via a single `tollbooth.config.yaml` file. All fields are documented below.
@@ -31,6 +38,8 @@ tollbooth is configured via a single `tollbooth.config.yaml` file. All fields ar
 gateway:
   port: 3000
   discovery: true
+  cors: true
+  trustProxy: true
 
 wallets:
   base: "0xYourBaseWallet"
@@ -45,6 +54,9 @@ accepts:
 defaults:
   price: "$0.001"
   timeout: 60
+  rateLimit:
+    windowMs: 60000
+    max: 100
 
 facilitator: https://x402.org/facilitator
 
@@ -64,6 +76,7 @@ routes:
   "POST /ai/claude":
     upstream: anthropic
     path: "/v1/messages"
+    settlement: after-response
     match:
       - where: { body.model: "claude-haiku-*" }
         price: "$0.005"
@@ -96,11 +109,16 @@ Top-level server configuration.
 | `port` | `number` | `3000` | Port the gateway listens on |
 | `discovery` | `boolean` | `true` | Expose `/.well-known/x402` and `/.well-known/openapi.json` discovery endpoints |
 | `hostname` | `string` | — | Optional hostname to bind to |
+| `cors` | `boolean \| CorsConfig` | `false` | Enable CORS headers. `true` uses permissive defaults; pass an object to configure `origin`, `methods`, and `headers`. See [Security & Hardening](/guides/security-hardening/#cors) |
+| `trustProxy` | `boolean` | `false` | Trust `X-Forwarded-For` and `X-Forwarded-Proto` headers from a reverse proxy. Enable when running behind Nginx, Caddy, or a cloud load balancer |
+| `metrics` | `boolean` | `false` | Expose a Prometheus-compatible metrics endpoint at `/metrics` |
 
 ```yaml
 gateway:
   port: 8080
   discovery: true
+  cors: true
+  trustProxy: true
 ```
 
 ---
@@ -153,12 +171,23 @@ Default values applied to all routes unless overridden.
 |-------|------|---------|-------------|
 | `price` | `string` | — | Default price for routes without an explicit price (e.g. `"$0.001"`) |
 | `timeout` | `number` | `60` | Default payment timeout in seconds |
+| `rateLimit` | `RateLimitConfig` | — | Default rate-limit applied to all routes. Override per-route with `routes.<route>.rateLimit` |
 
 ```yaml
 defaults:
   price: "$0.001"
   timeout: 60
+  rateLimit:
+    windowMs: 60000
+    max: 100
 ```
+
+`RateLimitConfig` fields:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `windowMs` | `number` | Time window in milliseconds |
+| `max` | `number` | Maximum requests per window |
 
 Prices are specified as dollar strings. `"$0.01"` = 10,000 USDC micro-units (6 decimals).
 
@@ -190,7 +219,7 @@ Named upstream API configurations. Each upstream defines where requests are prox
 | `headers` | `Record<string, string>` | — | Headers to inject into proxied requests |
 | `timeout` | `number` | — | Request timeout in seconds for this upstream |
 | `openapi` | `string` | — | URL or file path to an OpenAPI spec. Routes are auto-imported at startup. See [OpenAPI integration](/guides/openapi/) |
-| `defaultPrice` | `string` | — | Default price applied to auto-imported routes (e.g. `"$0.01"`). Required when `openapi` is set |
+| `defaultPrice` | `string` | — | Default price applied to auto-imported routes (e.g. `"$0.01"`). Optional — when omitted, imported routes use `defaults.price` |
 
 ```yaml
 upstreams:
@@ -260,6 +289,9 @@ routes:
 | `hooks` | `RouteHooksConfig` | — | Per-route lifecycle hooks (override global hooks) |
 | `metadata` | `Record<string, unknown>` | — | Arbitrary metadata included in discovery responses |
 | `facilitator` | `string` | from top-level `facilitator` | Override the facilitator URL for this route |
+| `settlement` | `"before-response" \| "after-response"` | `"before-response"` | When to settle payment relative to the upstream request. See [Refund Protection](/guides/refund-protection/) |
+| `rateLimit` | `RateLimitConfig` | from `defaults.rateLimit` | Override rate-limit for this route |
+| `verificationCache` | `VerificationCacheConfig` | — | Cache payment verification results to reduce facilitator calls on repeated payments |
 
 ### Free routes (no payment)
 
@@ -295,6 +327,16 @@ routes:
 ```
 
 `GET /data/12345` → proxied to `https://api.dune.com/api/v1/query/12345/results`
+
+Use `*` as a catch-all wildcard that matches the rest of the path. Access the matched value with `params["*"]`:
+
+```yaml
+routes:
+  "GET /articles/*":
+    upstream: blog
+    price:
+      fn: "./pricing/article-price.ts"
+```
 
 ### Path rewriting
 
@@ -476,6 +518,23 @@ Prices are specified as dollar strings and converted to USDC micro-units (6 deci
 | `"$0.01"` | 10,000 | 0.01 USDC |
 | `"$0.05"` | 50,000 | 0.05 USDC |
 | `"$1.00"` | 1,000,000 | 1.00 USDC |
+
+---
+
+## `stores`
+
+Optional external store configuration for sharing state across gateway instances (e.g. rate-limit counters, verification cache).
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `redis` | `string \| RedisConfig` | — | Redis connection URL or config object. When set, rate-limit counters and verification cache use Redis instead of in-memory stores |
+
+```yaml
+stores:
+  redis: "redis://localhost:6379"
+```
+
+When no store is configured, all state is kept in-memory and resets on restart.
 
 ---
 

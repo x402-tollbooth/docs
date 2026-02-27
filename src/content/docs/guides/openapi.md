@@ -27,7 +27,7 @@ upstreams:
     defaultPrice: "$0.01"
 ```
 
-tollbooth fetches the spec, creates a route for each operation, and applies `defaultPrice` as the price. You can also point at a local file:
+tollbooth fetches the spec, creates a route for each operation, and applies `defaultPrice` as the price. If `defaultPrice` is omitted, imported routes use `defaults.price`. You can also point at a local file:
 
 ```yaml
 upstreams:
@@ -84,7 +84,7 @@ The spec includes:
 - x402 payment extensions per operation:
   - `x-x402-price` — the resolved price
   - `x-x402-accepts` — accepted assets and networks
-  - `x-x402-pricing-type` — `"static"`, `"dynamic"`, `"token-based"`, or `"time"`
+  - `x-x402-pricing-type` — `"static"`, `"dynamic"`, `"match"`, or `"token-based"`
 
 Example response (truncated):
 
@@ -140,7 +140,7 @@ This creates a `tollbooth.config.yaml` with route entries for each endpoint at a
 
 The exported spec at `/.well-known/openapi.json` is how AI agents and tool-calling frameworks can discover what your gateway offers and what each call costs. Point an agent's tool-loading step at that URL, and it gets a complete picture of available operations plus payment requirements — no separate discovery step needed.
 
-If your client is browser-based, make sure [`gateway.cors`](/guides/openapi/#cors-for-browser-clients) is configured so the spec endpoint is accessible cross-origin.
+If your client is browser-based, make sure [`gateway.cors`](/guides/security-hardening/#cors) is configured so the spec endpoint is accessible cross-origin.
 
 ---
 
@@ -151,7 +151,7 @@ If your client is browser-based, make sure [`gateway.cors`](/guides/openapi/#cor
 | Field | Type | Description |
 |-------|------|-------------|
 | `openapi` | `string` | URL or file path to an OpenAPI spec. Routes are auto-imported at startup. |
-| `defaultPrice` | `string` | Price applied to all imported routes (e.g. `"$0.01"`). Required when `openapi` is set. |
+| `defaultPrice` | `string` | Price applied to all imported routes (e.g. `"$0.01"`). Optional — when omitted, imported routes use `defaults.price`. |
 
 ### Gateway fields
 

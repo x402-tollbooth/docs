@@ -10,16 +10,39 @@ keywords:
   - Grafana
 ---
 
-## Enable Prometheus metrics
+## Structured logs
+
+Every log line is a JSON object. Key fields:
+
+| Field | Type | Description |
+|---|---|---|
+| `msg` | `string` | Event type — `"request"`, `"payment_settled"`, `"settlement_failed"`, etc. |
+| `timestamp` | `string` | ISO 8601 timestamp |
+| `level` | `string` | `"debug"`, `"info"`, `"warn"`, `"error"` |
+| `method` | `string` | HTTP method |
+| `path` | `string` | Request path |
+| `route` | `string` | Matched route pattern, e.g. `"POST /v1/messages"` |
+| `status` | `number` | HTTP status returned to client |
+| `duration_ms` | `number` | Total request duration |
+| `price` | `string` | Price charged, e.g. `"$0.075"` |
+| `payer` | `string` | Payer wallet address |
+| `tx_hash` | `string` | On-chain transaction hash |
+| `error` | `string` | Error message, if any |
+
+Log levels: `info` (successful requests), `warn` (402s, rate limits), `error` (settlement/upstream failures), `debug` (verbose, disable in production).
+
+:::caution
+Never log raw API keys or full payment headers. If you ship logs to a third-party service, review which fields are indexed and who has access.
+:::
+
+## Prometheus metrics
+
+Enable with:
 
 ```yaml
 gateway:
-  metrics:
-    enabled: true
-    path: /metrics # default
+  metrics: true
 ```
-
-## Available metrics
 
 ### Counters
 
@@ -74,33 +97,13 @@ scrape_configs:
       - targets: ["localhost:3000"]
 ```
 
-## Structured logs
-
-Every log line is JSON. Key fields:
-
-| Field | Description |
-|---|---|
-| `request_id` | Unique per request (from `X-Request-Id` header or auto-generated) |
-| `route_id` | Matched route pattern |
-| `status` | HTTP status returned |
-| `latency_ms` | Total request duration |
-| `settlement_latency_ms` | Settlement round-trip time |
-| `upstream_latency_ms` | Upstream response time |
-| `error` | Error message, if any |
-
-Log levels: `info` (successful requests), `warn` (402s, rate limits), `error` (settlement/upstream failures), `debug` (verbose, disable in production).
-
-:::caution
-Never log raw API keys or full payment headers. Use truncated payer addresses for `client_id`.
-:::
-
 ## Troubleshooting
 
-**High 402 rate** — Check if clients are sending the payment header. Verify route prices haven't changed unexpectedly.
+**High 402 rate** — Check if clients are sending the `payment-signature` header. Verify route prices haven't changed. Check the `error` field on `status: 402` log lines.
 
-**Settlement failures** — Check facilitator endpoint health. Look at `settlement_latency_ms` for timeouts.
+**Settlement failures** — Check facilitator endpoint health. Look at `duration_ms` on `settlement_failed` log lines for timeouts.
 
-**High upstream latency** — Compare `upstream_latency_ms` with `latency_ms`. If they're close, tollbooth isn't the bottleneck.
+**High upstream latency** — Compare `duration_ms` with upstream timing. If they're close, tollbooth isn't the bottleneck.
 
 ---
 
