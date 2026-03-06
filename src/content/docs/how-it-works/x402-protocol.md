@@ -132,7 +132,29 @@ The x402 `exact` scheme uses [EIP-3009](https://eips.ethereum.org/EIPS/eip-3009)
 
 ## V2 discovery
 
-When `gateway.discovery` is `true`, tollbooth exposes a `GET /.well-known/x402` endpoint that returns metadata about all paid routes — accepted networks, assets, and pricing. Clients can use this to discover what payments are required before making requests.
+When `gateway.discovery` is `true` (the default), tollbooth exposes a `GET /.well-known/x402` endpoint that returns metadata about all paid routes — accepted networks, assets, and pricing. Clients can use this to discover what payments are required before making requests.
+
+Example response:
+
+```json
+{
+  "x402Version": 2,
+  "provider": "tollbooth",
+  "endpoints": [
+    {
+      "method": "GET",
+      "path": "/weather",
+      "pricing": { "type": "static", "model": "request", "defaultPrice": "$0.001" },
+      "accepts": [
+        { "asset": "0x036CbD53842c5426634e7929541eC2318f3dCF7e", "network": "base-sepolia", "facilitator": "https://x402.org/facilitator" }
+      ],
+      "facilitator": "https://x402.org/facilitator"
+    }
+  ]
+}
+```
+
+Discovery also enables an enriched OpenAPI spec at `/.well-known/openapi.json` with x402 payment extensions. See the [OpenAPI Integration guide](/guides/openapi/) for details on how AI agents can use this for automatic tool discovery.
 
 ---
 

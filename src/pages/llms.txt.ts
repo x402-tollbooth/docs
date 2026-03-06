@@ -9,23 +9,38 @@ export const GET: APIRoute = async () => {
 
 	// Ordered list matching the sidebar structure
 	const ordered = [
-		'welcome',
+		// Getting Started
 		'getting-started',
-		'guides/dynamic-pricing',
-		'guides/streaming-sse',
-		'guides/local-testing',
-		'guides/how-x402-works',
-		'guides/refund-protection',
-		'deploy',
-		'deploy/fly-io',
-		'deploy/railway',
-		'deploy/production',
-		'deploy/cloudflare-workers',
+		// How It Works
+		'how-it-works/x402-protocol',
+		'how-it-works/settlement',
+		// Pay-per-request
+		'pay-per-request/dynamic-pricing',
+		'pay-per-request/llm-pricing',
+		'pay-per-request/pricing-functions',
+		// Streaming
+		'streaming/streaming-sse',
+		'streaming/refund-protection',
+		// Going to Production
+		'production/security',
+		'production/monitoring',
+		'production/scaling',
+		'production/fly-io',
+		'production/railway',
+		'production/vps',
+		'production/cloudflare-workers',
+		// Reference
 		'reference/configuration',
 		'reference/cli',
+		// Guides
+		'guides/local-testing',
+		'guides/openapi',
+		'guides/analytics',
+		// Examples
 		'examples/ai-api-reseller',
-		'examples/video-streaming-paywall',
 		'examples/multi-upstream-gateway',
+		'examples/paid-articles-blog',
+		'examples/video-streaming-paywall',
 	];
 
 	const lines: string[] = [

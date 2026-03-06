@@ -121,14 +121,14 @@ For settlement logic that doesn't fit the facilitator model, implement the `Sett
 import type { SettlementStrategy } from "x402-tollbooth";
 
 const myStrategy: SettlementStrategy = {
-  async verify(payment) {
-    // Check if the payment is valid
-    // Return { valid: true } or { valid: false, reason: "..." }
+  async verify(payment, requirements) {
+    // Validate the payment against the requirements
+    // Return a SettlementVerification, e.g. { payer: "0x..." }
   },
 
-  async settle(payment) {
-    // Execute the settlement (on-chain tx, ledger update, etc.)
-    // Return { settled: true, txHash: "..." }
+  async settle(verification) {
+    // Execute the settlement using the verification result
+    // Return a SettlementInfo: { payer, amount, transaction, network }
   },
 };
 
