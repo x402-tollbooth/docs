@@ -1,5 +1,5 @@
 ---
-lastUpdated: 2026-03-06
+lastUpdated: 2026-11-18
 title: Configuration Reference
 description: Complete reference for tollbooth.config.yaml — every field, type, default, and example.
 keywords:
@@ -39,8 +39,9 @@ tollbooth is configured via a single `tollbooth.config.yaml` file. All fields ar
 gateway:
   port: 3000
   discovery: true
-  cors: true
   trustProxy: true
+  cors:
+    allowedOrigins: ["https://app.example.com"]
 
 wallets:
   base: "0xYourBaseWallet"
@@ -56,8 +57,8 @@ defaults:
   price: "$0.001"
   timeout: 60
   rateLimit:
-    windowMs: 60000
-    max: 100
+    requests: 100
+    window: 1m
 
 facilitator: https://x402.org/facilitator
 
@@ -110,16 +111,19 @@ Top-level server configuration.
 | `port` | `number` | `3000` | Port the gateway listens on |
 | `discovery` | `boolean` | `true` | Expose `/.well-known/x402` and `/.well-known/openapi.json` discovery endpoints |
 | `hostname` | `string` | — | Optional hostname to bind to |
-| `cors` | `boolean \| CorsConfig` | `false` | Enable CORS headers. `true` uses permissive defaults; pass an object to configure `origin`, `methods`, and `headers`. See [Security & Hardening](/production/security/#cors) |
-| `trustProxy` | `boolean` | `false` | Trust `X-Forwarded-For` and `X-Forwarded-Proto` headers from a reverse proxy. Enable when running behind Nginx, Caddy, or a cloud load balancer |
-| `metrics` | `boolean` | `false` | Expose a Prometheus-compatible metrics endpoint at `/metrics` |
+| `cors` | `CorsConfig` | — (CORS off) | Enable CORS headers. `allowedOrigins` is required. Optional: `allowedMethods`, `allowedHeaders`, `exposedHeaders`, `credentials` (default `false`; `"*"` origin not allowed with credentials), `maxAge`. See [Security & Hardening](/production/security/#cors) |
+| `trustProxy` | `boolean \| number \| { hops?, cidrs? }` | `false` | Trust `X-Forwarded-For` / `X-Forwarded-Proto` from a reverse proxy: `true`, a number of trusted hops, or specific CIDRs. Enable when running behind Nginx, Caddy, or a cloud load balancer |
+| `metrics` | `{ enabled?, path? }` | `{ enabled: false, path: "/metrics" }` | Expose a Prometheus-compatible metrics endpoint |
 
 ```yaml
 gateway:
   port: 8080
   discovery: true
-  cors: true
   trustProxy: true
+  cors:
+    allowedOrigins: ["https://app.example.com"]
+  metrics:
+    enabled: true
 ```
 
 ---
@@ -179,16 +183,16 @@ defaults:
   price: "$0.001"
   timeout: 60
   rateLimit:
-    windowMs: 60000
-    max: 100
+    requests: 100
+    window: 1m
 ```
 
 `RateLimitConfig` fields:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `windowMs` | `number` | Time window in milliseconds |
-| `max` | `number` | Maximum requests per window |
+| `requests` | `number` | Maximum requests per window (positive integer) |
+| `window` | `string` | Window duration, e.g. `"30s"`, `"1m"`, `"1h"`, `"1d"` |
 
 Prices are specified as dollar strings. `"$0.01"` = 10,000 USDC micro-units (6 decimals).
 
@@ -216,9 +220,11 @@ Configures the settlement strategy used to verify and collect payments. When omi
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
-| `strategy` | `"facilitator" \| "nanopayments" \| "custom"` | `"facilitator"` | Which settlement strategy to use |
+| `strategy` | `"facilitator" \| "nanopayments" \| "mpp" \| "tempo" \| "custom"` | `"facilitator"` | Which settlement strategy to use |
 | `network` | `"testnet" \| "mainnet"` | `"testnet"` | Circle Gateway environment (nanopayments only) |
-| `url` | `string` | — | Custom gateway URL override (nanopayments only) |
+| `url` | `string` | — | Gateway URL override (nanopayments), facilitator URL (mpp, tempo) |
+| `methods` | `MppMethod[]` | — | Payment methods (mpp only, at least one) |
+| `tempo` | `TempoConfig` | — | Tempo settings (tempo only) |
 | `module` | `string` | — | Path to a custom strategy module (custom only) |
 
 ### Facilitator (default)
@@ -247,6 +253,57 @@ settlement:
   strategy: nanopayments
   url: https://my-gateway.example.com
 ```
+
+### MPP
+
+Accept stablecoins and Stripe card payments through the [Machine Payments Protocol](/how-it-works/mpp/).
+
+```yaml
+settlement:
+  strategy: mpp
+  methods:
+    - type: tempo                          # stablecoins via the x402 facilitator
+    - type: stripe                         # card payments
+      secretKey: "${STRIPE_SECRET_KEY}"
+```
+
+| Method field | Type | Description |
+|---|---|---|
+| `type` | `"tempo" \| "stripe"` | Payment method |
+| `secretKey` | `string` | Stripe secret key (`stripe` only, required) |
+
+When running more than one instance with the `stripe` method, set `stores.verificationCache.backend: redis` so used PaymentIntents are shared across instances. See [MPP](/how-it-works/mpp/#what-the-gateway-checks).
+
+### Tempo
+
+Settle on Tempo with attribution and invoice memos. See [Tempo Settlement](/how-it-works/tempo/).
+
+```yaml
+settlement:
+  strategy: tempo
+  tempo:
+    url: "${TEMPO_FACILITATOR_URL}"
+    recipient: "0xYourMerchantAddress"
+    network: mainnet
+    token: pathUSD
+    recurring:
+      interval: monthly
+      autoPay: false
+    memo:
+      invoice_id: "{customer_id}-{period}"
+```
+
+`TempoConfig` fields:
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `url` | `string` | `settlement.url` | **Required** (here or as `settlement.url`). x402 facilitator that supports Tempo |
+| `recipient` | `string` | **required** | Merchant address for attribution and memos. Should match your `wallets` address |
+| `network` | `"mainnet" \| "testnet"` | `"mainnet"` | Label for attribution and memos |
+| `token` | `string` | `"pathUSD"` | Label for attribution and memos |
+| `recurring.interval` | `"daily" \| "weekly" \| "monthly" \| "yearly"` | — | Plan label (`{period}` placeholder) |
+| `recurring.autoPay` | `boolean` | `false` | Recorded in attribution. tollbooth doesn't pull funds automatically |
+| `memo` | `Record<string, string>` | — | Memo templates. Placeholders: `{customerId}`, `{customer_id}`, `{payer}`, `{period}`, `{recipient}`, `{network}`, `{token}` |
 
 ### Custom
 
@@ -344,7 +401,8 @@ routes:
 | `facilitator` | `string` | from top-level `facilitator` | Override the facilitator URL for this route |
 | `settlement` | `"before-response" \| "after-response"` | `"before-response"` | When to settle payment relative to the upstream request. See [Refund Protection](/streaming/refund-protection/) |
 | `rateLimit` | `RateLimitConfig` | from `defaults.rateLimit` | Override rate-limit for this route |
-| `verificationCache` | `VerificationCacheConfig` | — | Cache payment verification results to reduce facilitator calls on repeated payments |
+| `verificationCache` | `VerificationCacheConfig` | — | Cache payment verification results to reduce facilitator calls on repeated payments (facilitator strategy only) |
+| `pricing` | `RoutePricingConfig` | — | Pricing model (`model`, `duration`) plus `price` / `match` / `fallback`. See [Time-based pricing](#time-based-pricing) |
 
 ### Free routes (no payment)
 
@@ -366,6 +424,53 @@ This is useful for health checks, public listings, or mixed free/paid APIs where
 :::note
 If `defaults.price` is set to `"$0"`, all routes without an explicit `price` are free by default.
 :::
+
+### Time-based pricing
+
+Charge once for a period of access instead of per request. The simplest way is a period suffix on the route price:
+
+```yaml
+routes:
+  "GET /premium/*":
+    upstream: myapi
+    price: "$10/month"      # pay once, access for 30 days
+```
+
+This is shorthand for:
+
+```yaml
+routes:
+  "GET /premium/*":
+    upstream: myapi
+    pricing:
+      model: time
+      duration: 30d
+      price: "$10"
+```
+
+The first paid request settles and starts a session for that payer on that route. Until the session expires, requests carrying a valid payment header from the same payer are let through without another charge. After it expires, the route returns `402` and the client pays again. Nothing renews automatically.
+
+Supported suffixes (case-insensitive):
+
+| Suffix | Duration |
+|---|---|
+| `/request`, `/req` | Per request (same as no suffix) |
+| `/second`, `/sec`, `/s` | 1 second |
+| `/minute`, `/min`, `/m` | 1 minute |
+| `/hour`, `/hr`, `/h` | 1 hour |
+| `/day`, `/daily`, `/d` | 1 day |
+| `/week`, `/weekly`, `/w` | 7 days |
+| `/month`, `/monthly`, `/mo` | 30 days |
+| `/year`, `/yearly`, `/yr`, `/y` | 365 days |
+
+Rules:
+
+- An unknown suffix (e.g. `"$10/fortnight"`) is a config error, and the gateway won't start.
+- An explicit `pricing.model` or `pricing.duration` takes precedence over the suffix.
+- The suffix changes the pricing model only on a route's `price` or `pricing.price`. In `match` rules, `fallback` and `defaults.price`, only the amount is used.
+- `pricing.model: time` without a suffix requires `pricing.duration` (e.g. `"12h"`, `"7d"`).
+
+Sessions are stored in the time-session store: in memory by default, and reset on restart. Use `stores.timeSession.backend: redis` when running more than one instance. See [`stores`](#stores).
 
 ### Path parameters
 
@@ -572,22 +677,40 @@ Prices are specified as dollar strings and converted to USDC micro-units (6 deci
 | `"$0.05"` | 50,000 | 0.05 USDC |
 | `"$1.00"` | 1,000,000 | 1.00 USDC |
 
+A route price can also carry a period suffix, e.g. `"$10/month"`, to make the route time-based. See [Time-based pricing](#time-based-pricing).
+
 ---
 
 ## `stores`
 
-Optional external store configuration for sharing state across gateway instances (e.g. rate-limit counters, verification cache).
+Optional external store configuration for sharing state across gateway instances.
 
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `redis` | `string \| RedisConfig` | — | Redis connection URL or config object. When set, rate-limit counters and verification cache use Redis instead of in-memory stores |
+| Field | Type | Description |
+|-------|------|-------------|
+| `redis` | `RedisConfig` | Shared Redis connection: `url` (required), `prefix`, `options` |
+| `rateLimit` | `StoreSelection` | Rate-limit counters |
+| `verificationCache` | `StoreSelection` | Verification cache, plus used MPP Stripe PaymentIntents |
+| `timeSession` | `StoreSelection` | [Time-based pricing](#time-based-pricing) sessions |
+
+`StoreSelection` fields: `backend` (`"memory"` default, or `"redis"`) and an optional `redis` block (`url`, `prefix`, `options`) that overrides the shared connection for that store.
+
+Each store uses Redis only when its `backend` is `"redis"`. Setting `stores.redis` alone doesn't switch any store over.
 
 ```yaml
 stores:
-  redis: "redis://localhost:6379"
+  redis:
+    url: "redis://localhost:6379"
+    prefix: "tollbooth"
+
+  rateLimit:
+    backend: redis
+  verificationCache:
+    backend: redis
+  timeSession:
+    backend: redis
 ```
 
-When no store is configured, all state is kept in-memory and resets on restart.
+When no store is configured, all state is kept in-memory and resets on restart. See [Scaling and Shared Stores](/production/scaling/).
 
 ---
 

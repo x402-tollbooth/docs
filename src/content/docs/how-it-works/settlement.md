@@ -1,5 +1,5 @@
 ---
-lastUpdated: 2026-03-06
+lastUpdated: 2026-11-18
 title: Settlement Strategies
 description: Understand tollbooth's pluggable settlement system and choose the right strategy for your use case.
 keywords:
@@ -97,6 +97,28 @@ When using the `mpp` strategy, tollbooth advertises payment options via standard
 
 For the full MPP guide, see [MPP (Machine Payments Protocol)](/how-it-works/mpp/).
 
+### `tempo`
+
+Settles x402 payments on [Tempo](https://tempo.xyz) through an x402 facilitator that supports Tempo. It adds subscription-style routes (`price: "$10/month"`), per-customer attribution, and invoice memos.
+
+```yaml
+settlement:
+  strategy: tempo
+  tempo:
+    url: "${TEMPO_FACILITATOR_URL}"   # required: no default Tempo facilitator
+    recipient: "0xYourMerchantAddress"
+    recurring:
+      interval: monthly
+    memo:
+      invoice_id: "{customer_id}-{period}"
+```
+
+**When to use:** billing on Tempo where you want each settlement tagged with a customer and an invoice reference, or monthly-style access to an API.
+
+**Tradeoff:** you need a facilitator that supports Tempo. Memos and attribution are tollbooth metadata (logs, hooks, receipts), not on-chain data.
+
+For the full guide, see [Tempo Settlement](/how-it-works/tempo/).
+
 ## Self-hosting options
 
 The built-in facilitator covers most use cases, but you can go further when you need more control.
@@ -174,6 +196,7 @@ export default myStrategy;
 | `facilitator` | None | ~200 ms | Immediate on-chain | Production default |
 | `nanopayments` | None | ~200 ms | Batched (async) | Sub-cent micropayments, AI agents |
 | `mpp` | Stripe account (optional) | ~200 ms | Immediate | Universal agent payments (stablecoins + fiat) |
+| `tempo` | Tempo-capable facilitator | Depends on facilitator | Immediate on-chain | Tempo billing with attribution, memos, monthly access |
 | `local` (future) | Gas wallet + RPC | ~2–5 s | Immediate on-chain | Full self-sovereignty |
 | Custom | Varies | Varies | Varies | Free tiers, subscriptions, hybrid |
 

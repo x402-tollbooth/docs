@@ -44,6 +44,7 @@ export default defineConfig({
 						{ label: 'The x402 Protocol', slug: 'how-it-works/x402-protocol' },
 						{ label: 'Settlement Strategies', slug: 'how-it-works/settlement' },
 						{ label: 'MPP (Machine Payments)', slug: 'how-it-works/mpp' },
+						{ label: 'Tempo Settlement', slug: 'how-it-works/tempo' },
 					],
 				},
 				{

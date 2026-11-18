@@ -1,5 +1,5 @@
 ---
-lastUpdated: 2026-02-27
+lastUpdated: 2026-11-18
 title: Scaling and Shared Stores
 description: Run tollbooth across multiple instances using Redis-backed shared state.
 keywords:
@@ -19,7 +19,7 @@ When running multiple tollbooth instances, in-memory state is no longer safe. Us
 |---|---|
 | Rate-limit counters | All instances must read/increment the same counters |
 | Time/session state | Session started on instance A must be visible on instance B |
-| Verification cache | Prevents duplicate verification and settlement races |
+| Verification cache | Prevents duplicate verification and settlement races. Also records used MPP Stripe PaymentIntents, so a payment can't be reused on another instance |
 
 Without shared stores: rate limits become per-instance, sessions break across instances, and autoscaling creates fresh empty caches.
 
