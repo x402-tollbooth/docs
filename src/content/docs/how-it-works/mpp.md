@@ -164,6 +164,7 @@ This means existing x402 clients continue to work unchanged.
 | `facilitator` | USDC stablecoins | x402 only | Simple x402 setups |
 | `nanopayments` | USDC (batched) | x402 only | Sub-cent micropayments |
 | **`mpp`** | **Stablecoins + fiat cards** | **x402 + MPP** | **Universal agent payments** |
+| `tempo` | Stablecoins on Tempo | x402 only | Tempo billing with attribution and memos ([guide](/how-it-works/tempo/)) |
 | Custom | Anything | x402 only | Specialized logic |
 
 ## Learn more
