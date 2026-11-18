@@ -14,6 +14,8 @@ export const GET: APIRoute = async () => {
 		// How It Works
 		'how-it-works/x402-protocol',
 		'how-it-works/settlement',
+		'how-it-works/mpp',
+		'how-it-works/tempo',
 		// Pay-per-request
 		'pay-per-request/dynamic-pricing',
 		'pay-per-request/llm-pricing',
