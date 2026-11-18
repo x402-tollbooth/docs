@@ -1,5 +1,5 @@
 ---
-lastUpdated: 2026-03-26
+lastUpdated: 2026-11-18
 title: MPP (Machine Payments Protocol)
 description: How tollbooth supports the MPP standard for universal agent payments — stablecoins, fiat cards, and more through a single gateway.
 keywords:
@@ -66,6 +66,31 @@ settlement:
 ```
 
 The gateway creates a Stripe PaymentIntent for each challenge, and the client confirms it with their SPT credential.
+
+#### What the gateway checks
+
+Since v1.2.0, a PaymentIntent is accepted only if:
+
+- it was created by tollbooth for the challenge the client is answering (the `id` in `Authorization: Payment id="..."` must match the intent's challenge). Other PaymentIntents on your Stripe account are rejected.
+- it was created for the same route and network, in `usd`, for at least the route's current price
+- it is less than 1 hour old
+- it has not been used before
+
+Each PaymentIntent unlocks exactly **one** request. A replay, or several requests sent at once with the same intent, gets `402`.
+
+Stripe payments must arrive as an MPP credential (`Authorization: Payment`). A bare payload has no challenge id and is rejected.
+
+:::caution[Running more than one instance]
+Used PaymentIntents are recorded in the verification cache store. With the default in-memory store, each instance only knows about the intents it has seen, so an intent could be reused once on each instance. When you run more than one instance, set `stores.verificationCache.backend: redis`. See [Scaling and Shared Stores](/production/scaling/).
+
+```yaml
+stores:
+  redis:
+    url: "redis://localhost:6379"
+  verificationCache:
+    backend: redis
+```
+:::
 
 ## How it works
 
