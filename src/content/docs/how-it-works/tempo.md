@@ -19,7 +19,7 @@ The `tempo` settlement strategy settles x402 payments on [Tempo](https://tempo.x
 - **Per-customer attribution.** Every settlement carries a `customerId` and an `attribution` block (recipient, token, network, plan).
 - **Invoice memos.** Templates like `{customer_id}-{period}` are filled in for each settlement.
 
-Available since v1.2.0.
+Available since v1.2.1.
 
 :::caution[Bring a Tempo facilitator]
 tollbooth doesn't ship a default Tempo facilitator, because there is no canonical one. You must set `settlement.tempo.url` (or `settlement.url`) to an x402 facilitator that supports Tempo. Tempo support has been tested against a mocked facilitator. Check your facilitator on Tempo testnet before going live.

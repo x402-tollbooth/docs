@@ -69,7 +69,7 @@ The gateway creates a Stripe PaymentIntent for each challenge, and the client co
 
 #### What the gateway checks
 
-Since v1.2.0, a PaymentIntent is accepted only if:
+Since v1.2.1, a PaymentIntent is accepted only if:
 
 - it was created by tollbooth for the challenge the client is answering (the `id` in `Authorization: Payment id="..."` must match the intent's challenge). Other PaymentIntents on your Stripe account are rejected.
 - it was created for the same route and network, in `usd`, for at least the route's current price
