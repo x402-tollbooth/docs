@@ -1,5 +1,5 @@
 ---
-lastUpdated: 2026-02-27
+lastUpdated: 2026-11-19
 title: Monitoring & Observability
 description: Prometheus metrics and structured logging for production tollbooth deployments.
 keywords:
@@ -42,7 +42,9 @@ Enable with:
 
 ```yaml
 gateway:
-  metrics: true
+  metrics:
+    enabled: true
+    path: /metrics   # optional, this is the default
 ```
 
 ### Counters
